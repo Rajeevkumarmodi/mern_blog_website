@@ -7,11 +7,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-app.use("/user", router);
-
-// app.get("/", (req, res) => {
-//   res.end("Hello world");
-// });
+app.use(express.json());
+app.use("/user/api", router);
 
 app.listen(PORT, () => {
   console.log(`server is start on PORT ${PORT}`);
