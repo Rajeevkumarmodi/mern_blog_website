@@ -36,3 +36,9 @@ export const userSignupControllers = async (req, res) => {
     res.status(404).json({ error: "Internal server error" });
   }
 };
+
+// user login controllers
+
+export const userLoginControllers = async (req, res) => {
+  res.send("login controllers");
+};
