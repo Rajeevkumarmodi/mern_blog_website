@@ -40,5 +40,30 @@ export const userSignupControllers = async (req, res) => {
 // user login controllers
 
 export const userLoginControllers = async (req, res) => {
-  res.send("login controllers");
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(404).json({ error: "All fields are required" });
+  }
+
+  // email validation
+  if (!email.includes("@" && ".")) {
+    return res.status(404).json({ error: "please enter valid email" });
+  }
+
+  try {
+    const existUser = await User.findOne({ email });
+
+    if (!existUser) {
+      return res.status(404).json({ error: "user not registered" });
+    }
+
+    const match = await bcrypt.compare(password, existUser.password);
+
+    if (!match) {
+      return res.status(404).json({ error: "password not match" });
+    }
+
+    res.status(200).json({ success: "user successfully login" });
+  } catch (error) {}
 };
