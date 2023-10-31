@@ -3,6 +3,7 @@ import { Blog } from "../models/Blog.models.js";
 import { User } from "../models/User.models.js";
 import path from "path";
 
+// create blog controllers
 export const creatBlogControllers = async (req, res) => {
   const { title, description, category } = req.body;
   const file = req.file.filename;
@@ -47,5 +48,24 @@ export const creatBlogControllers = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: "Internal server error", err });
     console.log(err);
+  }
+};
+
+// get user blogs
+
+export const getUserBlogs = async (req, res) => {
+  const userId = req.userId;
+
+  try {
+    const exisitingUser = await User.findById({ _id: userId });
+    if (!exisitingUser) {
+      return res.status(404).json({ error: "All fields are required" });
+    }
+
+    const userBlogs = await User.findById({ _id: userId }).populate("blogs");
+    res.status(200).json({ success: userBlogs });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Internal Server error", error });
   }
 };
