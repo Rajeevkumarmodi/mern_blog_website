@@ -26,7 +26,7 @@ export const userSignupControllers = async (req, res) => {
     const newUser = new User({
       name,
       email,
-      password: hasPassword,
+      password: hashPassword,
       blogs,
       favourites,
     });

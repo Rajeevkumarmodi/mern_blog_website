@@ -8,7 +8,6 @@ export const creatBlogControllers = async (req, res) => {
   const file = req.file.filename;
   const extension = path.extname(file);
   const userId = req.userId;
-  console.log(title, description, category);
 
   if (!title || !description || !file || !category) {
     return res.status(404).json({ error: "All fields are required" });
@@ -20,7 +19,33 @@ export const creatBlogControllers = async (req, res) => {
       .json({ error: "only .png , .jpeg , jpg formate allowed" });
   }
 
-  const user = await User.findById({ _id: userId }).select("-password");
-  console.log(user);
-  res.send(user);
+  try {
+    const exisitingUser = await User.findById({ _id: userId }).select(
+      "-password"
+    );
+    if (!exisitingUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    console.log(exisitingUser);
+    const newBlog = await Blog({
+      title,
+      description,
+      category,
+      blogImage: file,
+      comments: [],
+      likes: [],
+    });
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    await newBlog.save({ session });
+    exisitingUser.blogs.push(newBlog);
+    await exisitingUser.save({ session });
+    await session.commitTransaction();
+    await newBlog.save();
+
+    return res.status(201).json({ success: "Blog created !", newBlog });
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error", err });
+    console.log(err);
+  }
 };
