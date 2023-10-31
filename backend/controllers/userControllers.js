@@ -1,5 +1,6 @@
 import { User } from "../models/User.models.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 // user signup controllers
 export const userSignupControllers = async (req, res) => {
@@ -63,7 +64,18 @@ export const userLoginControllers = async (req, res) => {
     if (!match) {
       return res.status(404).json({ error: "password not match" });
     }
-
-    res.status(200).json({ success: "user successfully login" });
-  } catch (error) {}
+    const token = jwt.sign(
+      { userId: existUser._id },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "2d",
+      }
+    );
+    res
+      .status(200)
+      .json({ success: "user successfully login", jwt_token: token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
