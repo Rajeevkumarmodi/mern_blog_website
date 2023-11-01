@@ -33,6 +33,7 @@ export const creatBlogControllers = async (req, res) => {
       description,
       category,
       blogImage: file,
+      author: userId,
       comments: [],
       likes: [],
     });
