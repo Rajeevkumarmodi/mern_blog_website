@@ -4,6 +4,7 @@ const router = express.Router();
 
 import {
   creatBlogControllers,
+  getAllBlogs,
   getUserBlogs,
 } from "../controllers/blogControllers.js";
 import upload from "../multerConfig/multerStorage.js";
@@ -17,4 +18,9 @@ router.post(
 );
 // user get blog
 router.post("/getuserblogs", jwt_authentication, getUserBlogs);
+
+// get all blogs
+
+router.get("/allblogs", jwt_authentication, getAllBlogs);
+
 export default router;
