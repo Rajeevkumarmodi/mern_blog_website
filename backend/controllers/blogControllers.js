@@ -91,3 +91,34 @@ export const getAllBlogs = async (req, res) => {
     return res.status(500).json({ error: "Internal server error", err });
   }
 };
+
+// delete blog
+
+export const deleteSingleBlog = async (req, res) => {
+  const userId = req.userId;
+  const blogId = req.params.id;
+
+  try {
+    const exisitingUser = await User.findOne({ _id: userId });
+
+    if (!exisitingUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const deleteBlog = await Blog.deleteOne({ _id: blogId }).populate("author");
+    await deleteBlog.author.blogs.pull(deleteBlog);
+    await deleteBlog.author.save();
+
+    console.log(deleteBlog);
+    return res.status(200).json({ success: "blog deleted" });
+  } catch (err) {
+    console.log(err);
+    return res.statue(500).json({ error: "Internal server error", err });
+  }
+};
+
+// edit blog
+
+export const editSingleBlog = async (req, res) => {
+  console.log("blog edit");
+};

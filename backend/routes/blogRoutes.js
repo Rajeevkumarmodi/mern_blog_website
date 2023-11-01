@@ -4,8 +4,10 @@ const router = express.Router();
 
 import {
   creatBlogControllers,
+  deleteSingleBlog,
   getAllBlogs,
   getUserBlogs,
+  editSingleBlog,
 } from "../controllers/blogControllers.js";
 import upload from "../multerConfig/multerStorage.js";
 
@@ -23,4 +25,10 @@ router.post("/getuserblogs", jwt_authentication, getUserBlogs);
 
 router.get("/allblogs", jwt_authentication, getAllBlogs);
 
+// delete blog
+
+router.delete("/blog/:id", jwt_authentication, deleteSingleBlog);
+
+// edit blog
+router.patch("/editblog/:id", editSingleBlog);
 export default router;
