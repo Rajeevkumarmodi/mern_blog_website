@@ -79,3 +79,21 @@ export const userLoginControllers = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// get single user data
+
+export const singleUserData = async (req, res) => {
+  const userId = req.userId;
+
+  try {
+    const exisitingUser = await User.findOne({ _id: userId });
+    if (!exisitingUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json({ success: exisitingUser });
+  } catch (error) {
+    console.log(err);
+    return res.status(500).json({ error: "Internal server error", err });
+  }
+};
