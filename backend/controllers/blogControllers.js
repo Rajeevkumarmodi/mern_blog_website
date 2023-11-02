@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { Blog } from "../models/Blog.models.js";
 import { User } from "../models/User.models.js";
 import path from "path";
+import { log } from "console";
 
 // create blog controllers
 export const creatBlogControllers = async (req, res) => {
@@ -153,5 +154,30 @@ export const editSingleBlog = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// single blog
+
+export const getSingleBlog = async (req, res) => {
+  const userId = req.userId;
+  const blogId = req.params.id;
+
+  try {
+    const exisitingUser = await User.findOne({ _id: userId });
+
+    if (!exisitingUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const singleBlog = await Blog.findOne({ _id: blogId });
+    if (!singleBlog) {
+      return res.status(404).json({ error: "Invalid Id" });
+    } else {
+      return res.status(404).json({ success: singleBlog });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Internal server error", err });
   }
 };

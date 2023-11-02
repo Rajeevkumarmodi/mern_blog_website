@@ -8,6 +8,7 @@ import {
   getAllBlogs,
   getUserBlogs,
   editSingleBlog,
+  getSingleBlog,
 } from "../controllers/blogControllers.js";
 import upload from "../multerConfig/multerStorage.js";
 
@@ -36,4 +37,6 @@ router.patch(
   upload.single("blogImage"),
   editSingleBlog
 );
+
+router.get("/bloginfo/:id", jwt_authentication, getSingleBlog);
 export default router;
