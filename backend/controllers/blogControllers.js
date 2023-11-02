@@ -121,3 +121,37 @@ export const deleteSingleBlog = async (req, res) => {
     return res.status(500).json({ error: "Internal server error", err });
   }
 };
+
+// edit blog
+
+export const editSingleBlog = async (req, res) => {
+  const blogId = req.params.id;
+  const userId = req.userId;
+  const { title, description, category, blogImage } = req.body;
+  const file = req.file ? req.file.filename : blogImage;
+
+  try {
+    const exisitingUser = await User.findOne({ _id: userId });
+    if (!exisitingUser) {
+      return res.status(404).json({ error: "user not found" });
+    }
+
+    const updateBlog = await Blog.updateOne(
+      { _id: blogId },
+      {
+        $set: {
+          title,
+          description,
+          category,
+          blogImage: file,
+        },
+        $currentDate: { lastUpdated: true },
+      }
+    );
+
+    res.status(200).json({ success: "update details successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

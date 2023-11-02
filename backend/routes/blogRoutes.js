@@ -30,5 +30,10 @@ router.get("/allblogs", jwt_authentication, getAllBlogs);
 router.delete("/blog/:id", jwt_authentication, deleteSingleBlog);
 
 // edit blog
-router.patch("/editblog/:id", editSingleBlog);
+router.patch(
+  "/editblog/:id",
+  jwt_authentication,
+  upload.single("blogImage"),
+  editSingleBlog
+);
 export default router;
