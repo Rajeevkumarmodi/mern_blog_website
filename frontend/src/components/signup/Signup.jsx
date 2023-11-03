@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import signupImg from "../../../public/signup_img.jpg";
-
+import toast, { Toaster } from "react-hot-toast";
+import { signupUser } from "../../API/apiCall";
+import { useNavigate } from "react-router-dom";
 function Signup() {
+  const navigate = useNavigate();
   const [inputVal, setInputVal] = useState({
     name: "",
     email: "",
@@ -10,7 +13,31 @@ function Signup() {
 
   function signupForm(e) {
     e.preventDefault();
-    console.log(inputVal);
+    fetchSignupData();
+  }
+
+  async function fetchSignupData() {
+    const { name, email, password } = inputVal;
+
+    if (!name || !email || !password) {
+      toast.error("All fields are required");
+    } else if (!email.includes("@" && ".")) {
+      toast.error("Please enter valid email");
+    } else {
+      const serverData = await signupUser(inputVal);
+      console.log(serverData);
+      if (serverData.status === 200) {
+        toast.success("User success fully signup");
+        setInputVal({
+          name: "",
+          email: "",
+          password: "",
+        });
+        navigate("/login");
+      } else {
+        toast.error(serverData.response.data.error);
+      }
+    }
   }
 
   function handlerChange(e) {
@@ -73,6 +100,7 @@ function Signup() {
           </form>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }
