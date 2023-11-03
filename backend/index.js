@@ -3,12 +3,14 @@ import dotenv from "dotenv";
 import "./DB/dbConnection.js";
 import router from "./routes/userRoutes.js";
 import blogRouter from "./routes/blogRoutes.js";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
+app.use(cors());
 app.use("/user/api", router);
 app.use("/blog/api", blogRouter);
 
