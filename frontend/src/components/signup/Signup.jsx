@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import signupImg from "../../../public/signup_img.jpg";
 
 function Signup() {
+  const [inputVal, setInputVal] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  function signupForm(e) {
+    e.preventDefault();
+    console.log(inputVal);
+  }
+
+  function handlerChange(e) {
+    const { name, value } = e.target;
+
+    setInputVal({ ...inputVal, [name]: value });
+  }
+
   return (
     <div className="h-[90vh] flex items-center justify-center">
       <div className="shadow-lg shadow-gray-400 rounded-lg">
@@ -10,7 +27,7 @@ function Signup() {
           <div className="hidden md:block">
             <img className="w-[400px]" src={signupImg} alt="" />
           </div>
-          <div className="flex flex-col items-center gap-4">
+          <form className="flex flex-col items-center gap-4">
             <div className="flex flex-col ">
               <label htmlFor="name">Name</label>
               <input
@@ -18,30 +35,42 @@ function Signup() {
                 type="text"
                 placeholder="enter name"
                 id="name"
+                name="name"
+                value={inputVal.name}
+                onChange={(e) => handlerChange(e)}
               />
             </div>
             <div className="flex flex-col">
               <label htmlFor="email">Email</label>
               <input
                 className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 focus:outline-none shadow-md shadow-gray-200"
-                type="text"
+                type="email"
                 placeholder="enter email"
                 id="email"
+                name="email"
+                value={inputVal.email}
+                onChange={(e) => handlerChange(e)}
               />
             </div>
             <div className="flex flex-col ">
               <label htmlFor="pass">Password</label>
               <input
                 className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 focus:outline-none shadow-md shadow-gray-200"
-                type="text"
+                type="password"
                 placeholder="enter password"
                 id="pss"
+                name="password"
+                value={inputVal.password}
+                onChange={(e) => handlerChange(e)}
               />
             </div>
-            <button className="bg-blue-500 py-1 px-3 rounded-lg text-white text-lg hover:shadow-md">
+            <button
+              onClick={(e) => signupForm(e)}
+              className="bg-blue-500 py-1 px-3 rounded-lg text-white text-lg hover:shadow-md"
+            >
               Signup
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
