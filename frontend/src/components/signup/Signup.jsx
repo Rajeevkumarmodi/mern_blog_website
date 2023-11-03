@@ -1,0 +1,51 @@
+import React from "react";
+import signupImg from "../../../public/signup_img.jpg";
+
+function Signup() {
+  return (
+    <div className="h-[90vh] flex items-center justify-center">
+      <div className="shadow-lg shadow-gray-400 rounded-lg">
+        <h2 className="text-center py-2 text-2xl font-bold">Signup</h2>
+        <div className="w-[80vw] flex items-center justify-between p-4">
+          <div className="hidden md:block">
+            <img className="w-[400px]" src={signupImg} alt="" />
+          </div>
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col ">
+              <label htmlFor="name">Name</label>
+              <input
+                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 focus:outline-none shadow-md shadow-gray-200"
+                type="text"
+                placeholder="enter name"
+                id="name"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="email">Email</label>
+              <input
+                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 focus:outline-none shadow-md shadow-gray-200"
+                type="text"
+                placeholder="enter email"
+                id="email"
+              />
+            </div>
+            <div className="flex flex-col ">
+              <label htmlFor="pass">Password</label>
+              <input
+                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 focus:outline-none shadow-md shadow-gray-200"
+                type="text"
+                placeholder="enter password"
+                id="pss"
+              />
+            </div>
+            <button className="bg-blue-500 py-1 px-3 rounded-lg text-white text-lg hover:shadow-md">
+              Signup
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Signup;
