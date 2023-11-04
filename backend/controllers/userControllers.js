@@ -42,7 +42,6 @@ export const userSignupControllers = async (req, res) => {
 
 export const userLoginControllers = async (req, res) => {
   const { email, password } = req.body;
-
   if (!email || !password) {
     return res.status(404).json({ error: "All fields are required" });
   }

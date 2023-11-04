@@ -10,3 +10,7 @@ export const signupUser = async (body, header) => {
     header
   );
 };
+
+export const loginUser = async (body, header) => {
+  return await apiCommanRequest("POST", `${USER_BASE_URL}/login`, body, header);
+};
