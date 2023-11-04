@@ -4,9 +4,12 @@ import { createContext } from "react";
 export const contex = createContext();
 
 function ContexApi({ children }) {
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
+  const [isSignup, setIsSignup] = useState(false);
   return (
-    <contex.Provider value={{ loader, setLoader }}>{children}</contex.Provider>
+    <contex.Provider value={{ loader, setLoader, isSignup, setIsSignup }}>
+      {children}
+    </contex.Provider>
   );
 }
 

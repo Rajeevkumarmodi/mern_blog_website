@@ -3,7 +3,10 @@ import signupImg from "../../../public/signup_img.jpg";
 import toast, { Toaster } from "react-hot-toast";
 import { signupUser } from "../../API/apiCall";
 import { useNavigate } from "react-router-dom";
+import Loader from "../loader/Loader";
+import { contex } from "../../contex/ContexApi";
 function Signup() {
+  const { loader, setLoader, setIsSignup } = useContext(contex);
   const navigate = useNavigate();
   const [inputVal, setInputVal] = useState({
     name: "",
@@ -24,18 +27,27 @@ function Signup() {
     } else if (!email.includes("@" && ".")) {
       toast.error("Please enter valid email");
     } else {
+      setLoader(true);
       const serverData = await signupUser(inputVal);
       console.log(serverData);
+      if (serverData.message === "Network Error") {
+        toast.error("Internal Server error");
+        setLoader(false);
+      }
       if (serverData.status === 200) {
-        toast.success("User success fully signup");
+        // toast.success("User signup successfully👍");
         setInputVal({
           name: "",
           email: "",
           password: "",
         });
+        setLoader(false);
+        // setTimeout(() => navigate("login"), 500);
+        setIsSignup(true);
         navigate("/login");
       } else {
         toast.error(serverData.response.data.error);
+        setLoader(false);
       }
     }
   }
@@ -93,9 +105,9 @@ function Signup() {
             </div>
             <button
               onClick={(e) => signupForm(e)}
-              className="bg-blue-500 py-1 px-3 rounded-lg text-white text-lg hover:shadow-md"
+              className="flex bg-blue-500 py-1 px-3 rounded-lg text-white text-lg hover:shadow-md"
             >
-              Signup
+              {loader ? <Loader /> : "Signup"}
             </button>
           </form>
         </div>

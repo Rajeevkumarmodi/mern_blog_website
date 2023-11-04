@@ -5,9 +5,7 @@ import "./index.css";
 import ContexApi from "./contex/ContexApi.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <ContexApi>
-      <App />
-    </ContexApi>
-  </React.StrictMode>
+  <ContexApi>
+    <App />
+  </ContexApi>
 );

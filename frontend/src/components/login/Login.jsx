@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import loginImg from "../../../public/login_img.png";
+import toast, { Toaster } from "react-hot-toast";
+import { contex } from "../../contex/ContexApi";
 
 function Signup() {
+  const { loader, setLoader, setIsSignup, isSignup } = useContext(contex);
+
   const [inputVal, setInputVal] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (isSignup === true) {
+      toast.success("user signup successfully👍");
+      setTimeout(() => setIsSignup(false), 600);
+    }
+  }, []);
 
   function loginForm(e) {
     e.preventDefault();
@@ -60,6 +71,7 @@ function Signup() {
           </form>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }
