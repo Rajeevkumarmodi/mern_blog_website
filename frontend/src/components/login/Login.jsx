@@ -3,9 +3,11 @@ import loginImg from "../../../public/login_img.png";
 import toast, { Toaster } from "react-hot-toast";
 import { contex } from "../../contex/ContexApi";
 import { loginUser } from "../../API/apiCall";
+import Loader from "../loader/Loader";
 
 function Signup() {
-  const { loader, setLoader, setIsSignup, isSignup } = useContext(contex);
+  const { loader, setLoader, setIsSignup, isSignup, setIsLogin } =
+    useContext(contex);
 
   const [inputVal, setInputVal] = useState({
     email: "",
@@ -19,9 +21,30 @@ function Signup() {
     }
   }, []);
 
-  function loginForm(e) {
+  async function loginForm(e) {
     e.preventDefault();
-    console.log(inputVal);
+    const { email, password } = inputVal;
+
+    if (!email || !password) {
+      toast.error("All fields are required 😒");
+    } else if (!email.includes("." && "@")) {
+      toast.error("please enter valid email ⚠️");
+    } else {
+      setLoader(true);
+      const serverData = await loginUser(inputVal);
+      console.log(serverData);
+      if (serverData.status === 200) {
+        setInputVal({
+          email: "",
+          password: "",
+        });
+        setLoader(false);
+        setIsLogin(true);
+      } else {
+        toast.error(serverData.response.data.error);
+        setLoader(false);
+      }
+    }
   }
 
   function handlerChange(e) {
@@ -67,7 +90,7 @@ function Signup() {
               onClick={(e) => loginForm(e)}
               className="bg-blue-500 py-1 px-6 rounded-lg text-white text-lg hover:shadow-md"
             >
-              Login
+              {loader ? <Loader /> : "Login"}
             </button>
           </form>
         </div>

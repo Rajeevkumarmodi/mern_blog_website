@@ -35,14 +35,12 @@ function Signup() {
         setLoader(false);
       }
       if (serverData.status === 200) {
-        // toast.success("User signup successfully👍");
         setInputVal({
           name: "",
           email: "",
           password: "",
         });
         setLoader(false);
-        // setTimeout(() => navigate("login"), 500);
         setIsSignup(true);
         navigate("/login");
       } else {
