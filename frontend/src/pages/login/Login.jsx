@@ -3,7 +3,7 @@ import loginImg from "../../../public/login_img.png";
 import toast, { Toaster } from "react-hot-toast";
 import { contex } from "../../contex/ContexApi";
 import { loginUser } from "../../API/apiCall";
-import Loader from "../loader/Loader";
+import Loader from "../../components/loader/Loader";
 
 function Signup() {
   const { loader, setLoader, setIsSignup, isSignup, setIsLogin } =

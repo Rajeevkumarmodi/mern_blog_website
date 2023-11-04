@@ -3,7 +3,7 @@ import signupImg from "../../../public/signup_img.jpg";
 import toast, { Toaster } from "react-hot-toast";
 import { signupUser } from "../../API/apiCall";
 import { useNavigate } from "react-router-dom";
-import Loader from "../loader/Loader";
+import Loader from "../../components/loader/Loader";
 import { contex } from "../../contex/ContexApi";
 function Signup() {
   const { loader, setLoader, setIsSignup } = useContext(contex);
