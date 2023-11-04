@@ -13,7 +13,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/user" element={<UserHome />} />
+          <Route path="/allblogs" element={<UserHome />} />
+          <Route path="/profile" element={<p>this is profile page</p>} />
+          <Route path="/myblogs" element={<p>this is my blogs page</p>} />
         </Routes>
       </BrowserRouter>
     </div>
