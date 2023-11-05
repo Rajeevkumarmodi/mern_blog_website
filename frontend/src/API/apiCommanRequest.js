@@ -6,7 +6,7 @@ export const apiCommanRequest = (method, url, body, header) => {
     method: method,
     url,
     data: body,
-    Headers: header ? header : { "Content-Type": "application/json" },
+    headers: header ? header : { "Content-Type": "application/json" },
   };
 
   return axios(config)

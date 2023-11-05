@@ -12,7 +12,7 @@ function Header() {
     setPresentToken(token);
   }, []);
   return (
-    <div className=" flex justify-between items-center max-w-7xl bg-blue-600 py-2 px-3 md:px-10 ">
+    <div className=" flex justify-between items-center max-w-7xl bg-blue-600 py-2 px-3 md:px-10 fixed w-full ">
       <div className="flex text-2xl md:text-3xl font-bold">
         <span className="text-orange-600">Blog</span>
         <span className="text-green-500">App</span>
