@@ -1,12 +1,14 @@
 import React from "react";
 import SideBar from "../sidebar/SideBar";
+import TopNavBar from "../topnavbar/TopNavBar";
 
 function Layout({ children }) {
   return (
     <div className="">
       {/* Mobile Navbar hidden on desktop  */}
-
-      <div className=" md:hidden">{/* <TopNavBar /> */}</div>
+      <div className=" md:hidden">
+        <TopNavBar />
+      </div>
 
       <div className=" max-h-screen flex">
         {/* sidebar hidden on mobile */}

@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
+import { MdOutlineClose } from "react-icons/md";
+import { contex } from "../../contex/ContexApi";
 
 function Header() {
+  const { setIsOpenManu, isOpenManu } = useContext(contex);
   const [presentToken, setPresentToken] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("auth-token");
@@ -18,24 +21,6 @@ function Header() {
         {/* large display */}
         {presentToken ? (
           <div className="flex gap-7 items-center">
-            <Link
-              to="/allblogs"
-              className="hidden md:block text-white hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400"
-            >
-              All Blogs
-            </Link>
-            <Link
-              to="/profile"
-              className="hidden md:block text-white hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400"
-            >
-              Profile
-            </Link>
-            <Link
-              to="/myblogs"
-              className="hidden md:block text-white hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400"
-            >
-              My Blogs
-            </Link>
             <Link className="text-white hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400">
               Logout
             </Link>
@@ -57,7 +42,17 @@ function Header() {
           </div>
         )}
         <div className="md:hidden">
-          <FaBars className=" text-white text-3xl cursor-pointer" />
+          {isOpenManu ? (
+            <MdOutlineClose
+              onClick={() => setIsOpenManu(!isOpenManu)}
+              className=" text-white text-3xl cursor-pointer"
+            />
+          ) : (
+            <FaBars
+              onClick={() => setIsOpenManu(!isOpenManu)}
+              className=" text-white text-3xl cursor-pointer "
+            />
+          )}
         </div>
       </div>
     </div>
