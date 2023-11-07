@@ -25,10 +25,22 @@ export const singleUser = async (header, body) => {
   );
 };
 
+// create blog api call
 export const creatBlog = async (body, header) => {
   return await apiCommanRequest(
     "POST",
     `${BLOG_BASE_URL}/createblog`,
+    body,
+    header
+  );
+};
+
+// all blogs api
+
+export const allBlogs = async (header, body) => {
+  return await apiCommanRequest(
+    "GET",
+    `${BLOG_BASE_URL}/allblogs`,
     body,
     header
   );
