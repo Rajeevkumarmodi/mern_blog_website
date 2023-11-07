@@ -83,10 +83,10 @@ export const getAllBlogs = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const allBlogs = await Blog.find();
+    const allBlogs = await Blog.find().populate("author");
 
     res.status(200).json({ success: allBlogs, totalBlogs: allBlogs.length });
-  } catch (error) {
+  } catch (err) {
     console.log(err);
     return res.status(500).json({ error: "Internal server error", err });
   }
