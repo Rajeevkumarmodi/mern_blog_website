@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import Layout from "../../components/layout/Layout";
+import { contex } from "../../contex/ContexApi";
+import toast, { Toaster } from "react-hot-toast";
 
 function UserHome() {
+  const { isBlogCreated, setIsBlogCreated } = useContext(contex);
+  if (isBlogCreated === true) {
+    toast.success("Created Blog");
+    setTimeout(() => setIsBlogCreated(false), 400);
+  }
   return (
-    <div>
-      <Layout>this is home page</Layout>
-    </div>
+    <Layout>
+      this is home page
+      <Toaster />
+    </Layout>
   );
 }
 
