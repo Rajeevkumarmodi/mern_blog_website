@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { Blog } from "../models/Blog.models.js";
 import { User } from "../models/User.models.js";
 import path from "path";
-import { log } from "console";
 
 // create blog controllers
 export const creatBlogControllers = async (req, res) => {

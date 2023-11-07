@@ -20,6 +20,7 @@ function ContexApi({ children }) {
   const [loader, setLoader] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [isBlogCreated, setIsBlogCreated] = useState(false);
   const [isOpenManu, setIsOpenManu] = useState(false);
   return (
     <contex.Provider
@@ -33,6 +34,8 @@ function ContexApi({ children }) {
         blogCategories,
         isOpenManu,
         setIsOpenManu,
+        setIsBlogCreated,
+        isBlogCreated,
       }}
     >
       {children}

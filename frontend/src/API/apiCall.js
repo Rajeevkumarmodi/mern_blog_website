@@ -24,3 +24,12 @@ export const singleUser = async (header, body) => {
     header
   );
 };
+
+export const creatBlog = async (body, header) => {
+  return await apiCommanRequest(
+    "POST",
+    `${BLOG_BASE_URL}/createblog`,
+    body,
+    header
+  );
+};

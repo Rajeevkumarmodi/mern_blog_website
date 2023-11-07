@@ -4,7 +4,7 @@ const jwt_authentication = async (req, res, next) => {
   const token = req.header("auth_token");
   if (!token) {
     return res
-      .status(401)
+      .status(404)
       .send({ error: "Please authenticate using a valid token" });
   }
 

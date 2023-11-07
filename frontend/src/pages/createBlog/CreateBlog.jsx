@@ -1,20 +1,56 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Layout from "../../components/layout/Layout";
 import JoditEditor from "jodit-react";
 import toast, { Toaster } from "react-hot-toast";
-
+import { creatBlog } from "../../API/apiCall";
+import Loader from "../../components/loader/Loader";
+import { contex } from "../../contex/ContexApi";
+import { useNavigate } from "react-router-dom";
 function CreateBlog() {
+  const { loader, setLoader, blogCategories, setIsBlogCreated } =
+    useContext(contex);
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [blogImage, setBlogImage] = useState("");
+  const [blogCategorie, setBlogCategorie] = useState("");
   const editor = useRef(null);
 
-  function submitData(e) {
+  const navigate = useNavigate();
+  async function submitData(e) {
     e.preventDefault();
-    if (!title || !blogImage || !content) {
+    if (!title || !blogImage || !content || !blogCategorie) {
       toast.error("All fields are required ");
+    } else if (blogCategorie === "All") {
+      toast.error("Please select valid categorie ");
     } else {
-      console.log(content);
+      const header = {
+        "Content-Type": "multipart/form-data",
+        auth_token: localStorage.getItem("auth-token"),
+      };
+      const data = new FormData();
+      data.append("title", title);
+      data.append("description", content);
+      data.append("blogImage", blogImage);
+      data.append("category", blogCategorie);
+
+      setLoader(true);
+      const serverData = await creatBlog(data, header);
+      console.log(serverData);
+      if (serverData.status == 201) {
+        setIsBlogCreated(true);
+        setContent("");
+        setBlogImage("");
+        setBlogCategorie("");
+        setTitle("");
+        setLoader(false);
+        navigate("/");
+      } else if (serverData.message == "Network Error") {
+        toast.error("Internal Server error");
+        setLoader(false);
+      } else if (serverData.response.status === 404) {
+        setLoader(false);
+        toast.error(serverData.response.data.error);
+      }
     }
   }
   return (
@@ -40,20 +76,38 @@ function CreateBlog() {
               onChange={(newContent) => setContent(newContent)}
             />
           </div>
-          <div className="flex flex-col gap-1">
-            <label htmlFor="image">Blog image*</label>
-            <input
-              onChange={(e) => setBlogImage(e.target.files[0])}
-              type="file"
-              id="image"
-            />
+          <div className="flex flex-col md:flex-row gap-2 justify-between">
+            <div className="flex flex-col gap-1">
+              <label htmlFor="image">Blog image*</label>
+              <input
+                onChange={(e) => setBlogImage(e.target.files[0])}
+                type="file"
+                id="image"
+              />
+            </div>
+            <div>
+              <p>Blog Categorie*</p>
+              <select
+                onChange={(e) => setBlogCategorie(e.target.value)}
+                className="text-center border-2 border-gray-400 rounded-lg py-1"
+              >
+                {blogCategories &&
+                  blogCategories.map((categ, index) => {
+                    return (
+                      <option key={index} value={categ}>
+                        {categ}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
           </div>
           <div className="py-3 text-center">
             <button
               onClick={(e) => submitData(e)}
               className="bg-blue-600 px-6 text-xl py-1 text-white rounded-lg hover:shadow-lg"
             >
-              Submit
+              {loader ? <Loader /> : "Submit"}
             </button>
           </div>
         </form>
