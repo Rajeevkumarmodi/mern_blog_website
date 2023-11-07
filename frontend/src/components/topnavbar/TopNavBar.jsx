@@ -13,7 +13,7 @@ function SideBar() {
   return (
     <>
       {isOpenManu ? (
-        <div className="py-2 flex flex-col justify-center items-center gap-4  w-[300px] h-[calc(100vh-53px)] bg-[#286082] absolute right-0">
+        <div className="mt-[50px] py-2 flex flex-col justify-center items-center gap-4  w-[300px] h-[calc(100vh-53px)] bg-[#286082] absolute right-0 z-10">
           <div className="flex items-center gap-3">
             <FcHome className="text-3xl shadow-md shadow-orange-500 bg-white rounded-full p-[1px]" />
             <Link

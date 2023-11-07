@@ -10,7 +10,7 @@ function SideBar() {
   const [clicked, setClicked] = useState("home");
   const { blogCategories } = useContext(contex);
   return (
-    <div className="mt-[52px] py-2 flex flex-col justify-center items-center gap-4  w-[300px] h-[calc(100vh-53px)] bg-[#286082] fixed">
+    <div className="mt-[52px] py-2 flex flex-col justify-center items-center gap-4  w-[300px] h-[calc(100vh-53px)] bg-[#286082]">
       <div className="flex items-center gap-3">
         <FcHome className="text-3xl shadow-md shadow-orange-500 bg-white rounded-full p-[1px]" />
         <Link
