@@ -37,7 +37,7 @@ export const creatBlog = async (body, header) => {
 
 // all blogs api
 
-export const allBlogs = async (header, body) => {
+export const allUsersAllBlogs = async (header, body) => {
   return await apiCommanRequest(
     "GET",
     `${BLOG_BASE_URL}/allblogs`,

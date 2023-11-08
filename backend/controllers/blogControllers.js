@@ -84,7 +84,6 @@ export const getAllBlogs = async (req, res) => {
     }
 
     const allBlogs = await Blog.find().populate("author");
-
     res.status(200).json({ success: allBlogs, totalBlogs: allBlogs.length });
   } catch (err) {
     console.log(err);
