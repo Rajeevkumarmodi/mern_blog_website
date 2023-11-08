@@ -32,7 +32,6 @@ function UserHome() {
       setLoader(false);
       toast.error("Internal Server Error");
     } else {
-      console.log("hello");
       setAllBlogs(serverData.data.success);
       setLoader(false);
     }
@@ -71,7 +70,6 @@ function UserHome() {
         )}
       </div>
       <Toaster />
-      {console.log(allBlogs)}
     </Layout>
   );
 }

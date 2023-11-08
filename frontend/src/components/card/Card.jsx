@@ -3,6 +3,7 @@ import loginImg from "../../../public/signup_img.jpg";
 import { RxAvatar } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
+const BLOGIMAGE_BASE_URL = "http://localhost:8080";
 function Card({ blog }) {
   const { title, description } = blog && blog;
   const replaceDesc = blog && description.replace(/<[^>]+>/g, "");
@@ -11,7 +12,11 @@ function Card({ blog }) {
     <div className="max-w-2xl m-auto shadow-lg shadow-gray-400">
       <div className="bg-white border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
         <div className="text-center">
-          <img className="rounded-t-lg h-[260px] " src={loginImg} alt="" />
+          <img
+            className="rounded-t-lg h-[260px] "
+            src={`${BLOGIMAGE_BASE_URL}/blogImage/${blog.blogImage}`}
+            alt=""
+          />
         </div>
         <div className="px-5 py-3 pb-5">
           <div className="text-white pb-3  flex items-center justify-between">
