@@ -1,5 +1,4 @@
 import React from "react";
-import loginImg from "../../../public/signup_img.jpg";
 import { RxAvatar } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
@@ -9,7 +8,10 @@ function Card({ blog }) {
   const replaceDesc = blog && description.replace(/<[^>]+>/g, "");
 
   return (
-    <div className="max-w-2xl m-auto shadow-lg shadow-gray-400">
+    <Link
+      to={`/blog/${blog._id}`}
+      className="max-w-2xl m-auto shadow-lg shadow-gray-400"
+    >
       <div className="bg-white border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
         <div className="text-center">
           <img
@@ -34,12 +36,12 @@ function Card({ blog }) {
               ? `${replaceDesc.slice(0, 100)}...`
               : replaceDesc}
           </div>
-          <Link className="text-white bg-blue-700 hover:bg-blue-80 font-medium rounded-lg text-sm px-3 py-2 text-center">
+          <button className="text-white bg-blue-700 hover:bg-blue-80 font-medium rounded-lg text-sm px-3 py-2 text-center">
             Read more
-          </Link>
+          </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
