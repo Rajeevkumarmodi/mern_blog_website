@@ -1,7 +1,6 @@
 import { apiCommanRequest } from "./apiCommanRequest";
 const USER_BASE_URL = "http://localhost:8080/user/api";
 const BLOG_BASE_URL = "http://localhost:8080/blog/api";
-// http://localhost:8080/user/api/userinfo
 
 export const signupUser = async (body, header) => {
   return await apiCommanRequest(
@@ -41,6 +40,17 @@ export const allUsersAllBlogs = async (header, body) => {
   return await apiCommanRequest(
     "GET",
     `${BLOG_BASE_URL}/allblogs`,
+    body,
+    header
+  );
+};
+
+// signle blog api
+
+export const singleBlog = async (id, header, body) => {
+  return await apiCommanRequest(
+    "GET",
+    `${BLOG_BASE_URL}/bloginfo/${id}`,
     body,
     header
   );

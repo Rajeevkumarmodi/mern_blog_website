@@ -168,11 +168,11 @@ export const getSingleBlog = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const singleBlog = await Blog.findOne({ _id: blogId });
+    const singleBlog = await Blog.findOne({ _id: blogId }).populate("author");
     if (!singleBlog) {
       return res.status(404).json({ error: "Invalid Id" });
     } else {
-      return res.status(404).json({ success: singleBlog });
+      return res.status(200).json({ success: singleBlog });
     }
   } catch (err) {
     console.log(err);
