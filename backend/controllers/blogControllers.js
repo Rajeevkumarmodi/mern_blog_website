@@ -190,11 +190,32 @@ export const blogLike = async (req, res) => {
     const blogLike = await Blog.updateOne(
       { _id: blogId },
       {
-        $addToSet: { likes: blogId },
+        $addToSet: { likes: userId },
       }
     );
     console.log(blogLike);
     res.status(200).json({ success: blogId });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Internal server error", err });
+  }
+};
+
+// blog unlike post
+
+export const blogUnlike = async (req, res) => {
+  const userId = req.userId;
+  const blogId = req.params.id;
+
+  try {
+    const unlike = await Blog.updateOne(
+      { _id: blogId },
+      {
+        $pull: { likes: userId },
+      }
+    );
+    console.log(unlike);
+    res.status(200).json({ success: unlike });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Internal server error", err });

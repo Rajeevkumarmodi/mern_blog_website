@@ -10,6 +10,7 @@ import {
   editSingleBlog,
   getSingleBlog,
   blogLike,
+  blogUnlike,
 } from "../controllers/blogControllers.js";
 import upload from "../multerConfig/multerStorage.js";
 
@@ -44,4 +45,7 @@ router.get("/bloginfo/:id", jwt_authentication, getSingleBlog);
 // blog like
 
 router.get("/:id/like", jwt_authentication, blogLike);
+
+// blog unlike
+router.get("/:id/unlike", jwt_authentication, blogUnlike);
 export default router;
