@@ -179,3 +179,24 @@ export const getSingleBlog = async (req, res) => {
     return res.status(500).json({ error: "Internal server error", err });
   }
 };
+
+// blog like
+
+export const blogLike = async (req, res) => {
+  const userId = req.userId;
+  const blogId = req.params.id;
+
+  try {
+    const blogLike = await Blog.updateOne(
+      { _id: blogId },
+      {
+        $addToSet: { likes: blogId },
+      }
+    );
+    console.log(blogLike);
+    res.status(200).json({ success: blogId });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Internal server error", err });
+  }
+};

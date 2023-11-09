@@ -32,7 +32,7 @@ const blogSchema = new Schema(
     likes: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Favourite",
+        ref: "User",
       },
     ],
   },
