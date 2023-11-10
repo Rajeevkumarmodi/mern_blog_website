@@ -186,6 +186,8 @@ export const blogLike = async (req, res) => {
   const userId = req.userId;
   const blogId = req.params.id;
 
+  const session = await mongoose.startSession();
+  await session.startTransaction();
   try {
     const blogLike = await Blog.updateOne(
       { _id: blogId },
@@ -193,10 +195,20 @@ export const blogLike = async (req, res) => {
         $addToSet: { likes: userId },
       }
     );
-    console.log(blogLike);
-    res.status(200).json({ success: blogId });
+    const userLike = await User.updateOne(
+      { _id: userId },
+      {
+        $addToSet: { favourites: blogId },
+      }
+    );
+
+    await session.commitTransaction();
+    session.endSession();
+    res.status(200).json({ success: userLike });
   } catch (err) {
     console.log(err);
+    await session.abortTransaction();
+    session.endSession();
     res.status(500).json({ error: "Internal server error", err });
   }
 };
@@ -207,6 +219,9 @@ export const blogUnlike = async (req, res) => {
   const userId = req.userId;
   const blogId = req.params.id;
 
+  const session = await mongoose.startSession();
+  await session.startTransaction();
+
   try {
     const unlike = await Blog.updateOne(
       { _id: blogId },
@@ -214,10 +229,19 @@ export const blogUnlike = async (req, res) => {
         $pull: { likes: userId },
       }
     );
-    console.log(unlike);
-    res.status(200).json({ success: unlike });
+
+    const userUnlike = await User.updateOne(
+      { _id: userId },
+      {
+        $pull: { favourites: blogId },
+      }
+    );
+
+    res.status(200).json({ success: userUnlike });
   } catch (err) {
     console.log(err);
+    await session.abortTransaction();
+    session.endSession();
     res.status(500).json({ error: "Internal server error", err });
   }
 };
