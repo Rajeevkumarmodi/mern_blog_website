@@ -55,3 +55,25 @@ export const singleBlog = async (id, header, body) => {
     header
   );
 };
+
+// user like blog api
+
+export const userLikeBlog = async (id, header, body) => {
+  return await apiCommanRequest(
+    "GET",
+    `${BLOG_BASE_URL}/${id}/like`,
+    body,
+    header
+  );
+};
+
+// user unlike blog api
+
+export const userUnlikeBlog = async (id, header, body) => {
+  return await apiCommanRequest(
+    "GET",
+    `${BLOG_BASE_URL}/${id}/unlike`,
+    body,
+    header
+  );
+};

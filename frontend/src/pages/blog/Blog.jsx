@@ -1,31 +1,37 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { singleBlog } from "../../API/apiCall";
+import { singleBlog, userLikeBlog, userUnlikeBlog } from "../../API/apiCall";
 import { contex } from "../../contex/ContexApi";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
 import Layout from "../../components/layout/Layout";
 import loginImg from "../../../public/login_img.png";
 import { RxAvatar } from "react-icons/rx";
-import { AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiTwotoneHeart } from "react-icons/ai";
 import ReactHtmlParser from "react-html-parser";
 const BLOGIMAGE_BASE_URL = "http://localhost:8080/blogImage";
+
+// header
+const header = {
+  "Content-Type": "application/json",
+  auth_token: localStorage.getItem("auth-token"),
+};
+
 function Blog() {
   const { loader, setLoader } = useContext(contex);
   const [isLiked, setIsLiked] = useState(false);
   const [blogData, setBlogData] = useState();
-  //   const [blogImage, setBlogImage] = useState();
   const { id } = useParams();
   useEffect(() => {
     fetchSingleBlog();
   }, [id]);
 
+  // blog description
   const blogDescription = blogData && ReactHtmlParser(blogData.description);
+
+  // fetchsingle blog function
+
   async function fetchSingleBlog() {
-    const header = {
-      "Content-Type": "application/json",
-      auth_token: localStorage.getItem("auth-token"),
-    };
     setLoader(true);
     const serverData = await singleBlog(id, header);
     console.log(serverData);
@@ -37,6 +43,35 @@ function Blog() {
       toast.error(serverData.response.data.error);
     }
   }
+
+  // user like blog function
+
+  async function userLikeBlogFun() {
+    const serverData = await userLikeBlog(id, header);
+    if (serverData.status === 200) {
+      const serverData = await singleBlog(id, header);
+      setBlogData(serverData.data.success);
+    }
+    console.log("like call", serverData);
+    if (serverData.message == "Network Error") {
+      toast.error("Internal server error");
+    }
+  }
+
+  // user unlike blog function
+
+  async function userUnlikeBlogFun() {
+    const serverData = await userUnlikeBlog(id, header);
+    console.log("unlike call", serverData);
+    if (serverData.status === 200) {
+      const serverData = await singleBlog(id, header);
+      setBlogData(serverData.data.success);
+    }
+    if (serverData.message == "Network Error") {
+      toast.error("Internal server error");
+    }
+  }
+
   return (
     <Layout>
       <div className="mt-[70px] md:w-[60vw] w-[80vw]">
@@ -52,12 +87,18 @@ function Blog() {
               />
             </div>
             <div className="flex items-center gap-1">
-              <AiFillHeart
-                onClick={() => setIsLiked(!isLiked)}
-                className={`text-4xl cursor-pointer hover:shadow-md shadow-gray-400 rounded-full ${
-                  isLiked ? "text-red-600" : "text-gray-500"
-                }`}
-              />
+              {blogData && blogData.likes.includes(blogData.author._id) ? (
+                <AiTwotoneHeart
+                  onClick={userUnlikeBlogFun}
+                  className="text-4xl cursor-pointer hover:shadow-md shadow-gray-400 rounded-full text-red-700"
+                />
+              ) : (
+                <AiFillHeart
+                  onClick={userLikeBlogFun}
+                  className="text-4xl cursor-pointer hover:shadow-md shadow-gray-400 rounded-full text-gray-500"
+                />
+              )}
+
               <p>{blogData && blogData.likes.length}</p>
             </div>
             <div className="py-3 flex items-center justify-between">
@@ -81,7 +122,6 @@ function Blog() {
           </div>
         )}
       </div>
-      {console.log(blogData)}
       <Toaster />
     </Layout>
   );
