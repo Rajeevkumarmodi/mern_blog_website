@@ -5,9 +5,10 @@ import { contex } from "../../contex/ContexApi";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
 import Layout from "../../components/layout/Layout";
+import Comment from "../../components/comment/Comment";
 import loginImg from "../../../public/login_img.png";
 import { RxAvatar } from "react-icons/rx";
-import { AiFillHeart, AiTwotoneHeart } from "react-icons/ai";
+import { AiFillHeart, AiTwotoneHeart, AiOutlineSend } from "react-icons/ai";
 import ReactHtmlParser from "react-html-parser";
 const BLOGIMAGE_BASE_URL = "http://localhost:8080/blogImage";
 
@@ -119,6 +120,22 @@ function Blog() {
               </h2>
             </div>
             <div className="text-gray-600">{blogDescription}</div>
+
+            {/* comment */}
+
+            <div className="flex items-center gap-2  mt-5 mb-3">
+              <input
+                type="text"
+                className="border-2 border-gray-400 rounded-lg px-2 py-1"
+                placeholder={`comment as ${blogData && blogData.author.name}`}
+              />
+              <AiOutlineSend className="text-3xl text-green-600" />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <p>comments</p>
+              <Comment />
+            </div>
           </div>
         )}
       </div>
