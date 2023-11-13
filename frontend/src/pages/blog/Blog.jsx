@@ -1,6 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { singleBlog, userLikeBlog, userUnlikeBlog } from "../../API/apiCall";
+import {
+  singleBlog,
+  userLikeBlog,
+  userUnlikeBlog,
+  userComment,
+} from "../../API/apiCall";
 import { contex } from "../../contex/ContexApi";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
@@ -22,6 +27,7 @@ function Blog() {
   const { loader, setLoader } = useContext(contex);
   const [isLiked, setIsLiked] = useState(false);
   const [blogData, setBlogData] = useState();
+  const [comment, setComment] = useState();
   const { id } = useParams();
   useEffect(() => {
     fetchSingleBlog();
@@ -70,6 +76,23 @@ function Blog() {
     }
     if (serverData.message == "Network Error") {
       toast.error("Internal server error");
+    }
+  }
+
+  async function commentAPICallFun() {
+    if (!comment) {
+      toast.error("Please fill comment");
+    } else {
+      const serverData = await userComment(id, header, { comment: comment });
+      console.log(serverData);
+      if (serverData.status === 200) {
+        const serverData = await singleBlog(id, header);
+        setBlogData(serverData.data.success);
+        setComment("");
+      }
+      if (serverData.message == "Network Error") {
+        toast.error("Internal server error");
+      }
     }
   }
 
@@ -126,15 +149,19 @@ function Blog() {
             <div className="flex items-center gap-2  mt-5 mb-3">
               <input
                 type="text"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
                 className="border-2 border-gray-400 rounded-lg px-2 py-1"
                 placeholder={`comment as ${blogData && blogData.author.name}`}
               />
-              <AiOutlineSend className="text-3xl text-green-600" />
+              <AiOutlineSend
+                onClick={() => commentAPICallFun()}
+                className="text-3xl text-green-600"
+              />
             </div>
 
             <div className="flex flex-col gap-2">
               <p>comments</p>
-              <Comment />
             </div>
           </div>
         )}

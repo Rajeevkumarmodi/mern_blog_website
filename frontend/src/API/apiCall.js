@@ -77,3 +77,14 @@ export const userUnlikeBlog = async (id, header, body) => {
     header
   );
 };
+
+// comment api
+
+export const userComment = async (id, header, body) => {
+  return await apiCommanRequest(
+    "POST",
+    `${BLOG_BASE_URL}/${id}/comment`,
+    body,
+    header
+  );
+};

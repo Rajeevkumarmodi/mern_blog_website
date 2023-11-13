@@ -249,30 +249,33 @@ export const blogUnlike = async (req, res) => {
 
 export const blogComment = async (req, res) => {
   const blogId = req.params.id;
-  const userId = req.params.user;
+  const userId = req.userId;
   const commentText = req.body.comment;
+  if (!commentText) {
+    return res.status(404).json({ error: "Please fill comment" });
+  } else {
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
-  const session = await mongoose.startSession();
-  session.startTransaction();
+    try {
+      const newComment = new Comment({
+        commentText,
+        commentBy: userId,
+      });
 
-  try {
-    const newComment = new Comment({
-      commentText,
-      commentBy: userId,
-    });
+      const updateBlog = await Blog.updateOne(
+        { _id: blogId },
+        { $set: { comments: newComment._id } }
+      );
 
-    const updateBlog = await Blog.updateOne(
-      { _id: blogId },
-      { $set: { comments: newComment._id } }
-    );
-
-    await newComment.save();
-    res.status(200).json({ success: newComment });
-    session.commitTransaction();
-  } catch (err) {
-    await session.abortTransaction();
-    session.endSession();
-    console.log(err);
-    res.status(500).json({ error: "Internal server error", err });
+      await newComment.save();
+      res.status(200).json({ success: newComment });
+      session.commitTransaction();
+    } catch (err) {
+      await session.abortTransaction();
+      session.endSession();
+      console.log(err);
+      res.status(500).json({ error: "Internal server error", err });
+    }
   }
 };
