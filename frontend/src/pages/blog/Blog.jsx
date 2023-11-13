@@ -28,6 +28,7 @@ function Blog() {
   const [isLiked, setIsLiked] = useState(false);
   const [blogData, setBlogData] = useState();
   const [comment, setComment] = useState();
+  const [totalComment, setTotalComment] = useState([]);
   const { id } = useParams();
   useEffect(() => {
     fetchSingleBlog();
@@ -45,6 +46,7 @@ function Blog() {
     if (serverData.status === 200) {
       setLoader(false);
       setBlogData(serverData.data.success);
+      setTotalComment(serverData.data.success.comments);
     } else {
       setLoader(false);
       toast.error(serverData.response.data.error);
@@ -88,6 +90,7 @@ function Blog() {
       if (serverData.status === 200) {
         const serverData = await singleBlog(id, header);
         setBlogData(serverData.data.success);
+        setTotalComment(serverData.data.success.comments);
         setComment("");
       }
       if (serverData.message == "Network Error") {
@@ -160,9 +163,23 @@ function Blog() {
               />
             </div>
 
-            <div className="flex flex-col gap-2">
-              <p>comments</p>
-            </div>
+            {totalComment && totalComment.length > 0 ? (
+              <div className="flex flex-col gap-2">
+                <p>comments</p>
+                {totalComment &&
+                  totalComment.map((comment) => {
+                    return (
+                      <Comment
+                        commentText={comment.commentText}
+                        commentBy={comment.commentBy.name}
+                        date={comment.createdAt}
+                      />
+                    );
+                  })}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         )}
       </div>

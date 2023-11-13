@@ -169,7 +169,9 @@ export const getSingleBlog = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const singleBlog = await Blog.findOne({ _id: blogId }).populate("author");
+    const singleBlog = await Blog.findOne({ _id: blogId })
+      .populate("author")
+      .populate({ path: "comments", populate: { path: "commentBy" } });
     if (!singleBlog) {
       return res.status(404).json({ error: "Invalid Id" });
     } else {
@@ -265,7 +267,7 @@ export const blogComment = async (req, res) => {
 
       const updateBlog = await Blog.updateOne(
         { _id: blogId },
-        { $set: { comments: newComment._id } }
+        { $push: { comments: newComment._id } }
       );
 
       await newComment.save();
