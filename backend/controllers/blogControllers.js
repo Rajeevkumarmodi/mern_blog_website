@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { Blog } from "../models/Blog.models.js";
 import { User } from "../models/User.models.js";
+import Comment from "../models/Comment.models.js";
 import path from "path";
 
 // create blog controllers
@@ -242,6 +243,36 @@ export const blogUnlike = async (req, res) => {
     console.log(err);
     await session.abortTransaction();
     session.endSession();
+    res.status(500).json({ error: "Internal server error", err });
+  }
+};
+
+export const blogComment = async (req, res) => {
+  const blogId = req.params.id;
+  const userId = req.params.user;
+  const commentText = req.body.comment;
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const newComment = new Comment({
+      commentText,
+      commentBy: userId,
+    });
+
+    const updateBlog = await Blog.updateOne(
+      { _id: blogId },
+      { $set: { comments: newComment._id } }
+    );
+
+    await newComment.save();
+    res.status(200).json({ success: newComment });
+    session.commitTransaction();
+  } catch (err) {
+    await session.abortTransaction();
+    session.endSession();
+    console.log(err);
     res.status(500).json({ error: "Internal server error", err });
   }
 };

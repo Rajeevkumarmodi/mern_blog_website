@@ -50,4 +50,7 @@ router.get("/:id/like", jwt_authentication, blogLike);
 // blog unlike
 router.get("/:id/unlike", jwt_authentication, blogUnlike);
 
+// blog comment
+
+router.post("/:id/comment", jwt_authentication, blogComment);
 export default router;
