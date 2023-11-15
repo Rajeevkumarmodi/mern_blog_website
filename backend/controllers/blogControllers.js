@@ -61,10 +61,12 @@ export const getUserBlogs = async (req, res) => {
   try {
     const exisitingUser = await User.findById({ _id: userId });
     if (!exisitingUser) {
-      return res.status(404).json({ error: "All fields are required" });
+      return res.status(404).json({ error: "User not valid" });
     }
 
-    const userBlogs = await User.findById({ _id: userId }).populate("blogs");
+    const userBlogs = await User.findById({ _id: userId }).populate({
+      path: "blogs",
+    });
     res.status(200).json({ success: userBlogs });
   } catch (error) {
     console.log(error);

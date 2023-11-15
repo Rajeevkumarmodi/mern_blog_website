@@ -23,7 +23,7 @@ router.post(
   creatBlogControllers
 );
 // user get blog
-router.post("/getuserblogs", jwt_authentication, getUserBlogs);
+router.get("/getuserblogs", jwt_authentication, getUserBlogs);
 
 // get all blogs
 

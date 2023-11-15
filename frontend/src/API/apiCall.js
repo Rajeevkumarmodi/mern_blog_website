@@ -88,3 +88,14 @@ export const userComment = async (id, header, body) => {
     header
   );
 };
+
+// user blogs
+
+export const userBlogs = async (header, body) => {
+  return await apiCommanRequest(
+    "GET",
+    `${BLOG_BASE_URL}/getuserblogs`,
+    body,
+    header
+  );
+};

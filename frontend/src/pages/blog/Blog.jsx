@@ -159,7 +159,7 @@ function Blog() {
               />
               <AiOutlineSend
                 onClick={() => commentAPICallFun()}
-                className="text-3xl text-green-600"
+                className="text-3xl text-green-600 cursor-pointer"
               />
             </div>
 
