@@ -3,7 +3,7 @@ import Layout from "../../components/layout/Layout";
 import { contex } from "../../contex/ContexApi";
 import toast, { Toaster } from "react-hot-toast";
 import { userBlogs } from "../../API/apiCall";
-import Card from "../../components/card/Card";
+import MyBlogCard from "../../components/myBlogCard/MyBlogCard";
 import Loader from "../../components/loader/Loader";
 function UserHome() {
   const { isBlogCreated, setIsBlogCreated, blogCategories, loader, setLoader } =
@@ -48,7 +48,11 @@ function UserHome() {
             {allBlogs &&
               allBlogs.blogs.map((blog) => {
                 return (
-                  <Card key={blog._id} blog={blog} author={allBlogs.name} />
+                  <MyBlogCard
+                    key={blog._id}
+                    blog={blog}
+                    author={allBlogs.name}
+                  />
                 );
               })}
           </div>
