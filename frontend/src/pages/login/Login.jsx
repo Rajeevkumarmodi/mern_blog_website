@@ -4,8 +4,10 @@ import toast, { Toaster } from "react-hot-toast";
 import { contex } from "../../contex/ContexApi";
 import { loginUser } from "../../API/apiCall";
 import Loader from "../../components/loader/Loader";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+  const navigate = useNavigate();
   const { loader, setLoader, setIsSignup, isSignup, setIsLogin } =
     useContext(contex);
 
@@ -45,6 +47,7 @@ function Signup() {
         localStorage.setItem("auth-token", serverData.data.jwt_token);
         setLoader(false);
         setIsLogin(true);
+        navigate("/");
       } else {
         toast.error(serverData.response.data.error);
         setLoader(false);
