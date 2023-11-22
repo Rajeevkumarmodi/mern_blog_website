@@ -31,7 +31,7 @@ router.get("/allblogs", jwt_authentication, getAllBlogs);
 
 // delete blog
 
-router.delete("/blog/:id", jwt_authentication, deleteSingleBlog);
+router.delete("/:id", jwt_authentication, deleteSingleBlog);
 
 // edit blog
 router.patch(

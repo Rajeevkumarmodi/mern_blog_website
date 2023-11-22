@@ -110,3 +110,9 @@ export const editSingleBlog = async (body, header, id) => {
     header
   );
 };
+
+// delete blog
+
+export const deleteSingleBlog = async (id, header, body) => {
+  return apiCommanRequest("DELETE", `${BLOG_BASE_URL}/${id}`, body, header);
+};

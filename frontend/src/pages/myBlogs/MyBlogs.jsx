@@ -5,6 +5,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { userBlogs } from "../../API/apiCall";
 import MyBlogCard from "../../components/myBlogCard/MyBlogCard";
 import Loader from "../../components/loader/Loader";
+import { deleteSingleBlog } from "../../API/apiCall";
+
 function UserHome() {
   const {
     isBlogCreated,
@@ -50,6 +52,23 @@ function UserHome() {
       setLoader(false);
     }
   }
+
+  // header
+  const header = {
+    "Content-Type": "application/json",
+    auth_token: localStorage.getItem("auth-token"),
+  };
+
+  async function deleteFunction(id) {
+    const serverData = await deleteSingleBlog(id, header);
+    console.log(serverData);
+    if (serverData.status === 200) {
+      toast.success("Blog deleted ");
+      fetchBlogs();
+    } else {
+      toast.error(serverData.response.data.error);
+    }
+  }
   return (
     <Layout>
       <div className="my-[60px] flex  flex-col">
@@ -67,6 +86,7 @@ function UserHome() {
                     key={blog._id}
                     blog={blog}
                     author={allBlogs.name}
+                    deleteFunction={deleteFunction}
                   />
                 );
               })}

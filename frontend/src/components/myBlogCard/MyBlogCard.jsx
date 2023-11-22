@@ -3,12 +3,17 @@ import { RxAvatar } from "react-icons/rx";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const BLOGIMAGE_BASE_URL = "http://localhost:8080";
-function Card({ blog, author }) {
+function Card({ blog, author, deleteFunction }) {
   const { title, description } = blog && blog;
   const replaceDesc =
     blog && description.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ");
+
+  async function deleteBlog(id) {
+    deleteFunction(id);
+  }
 
   return (
     <div
@@ -27,7 +32,10 @@ function Card({ blog, author }) {
           <Link to={`/editblog/${blog._id}`}>
             <FaEdit className="text-3xl cursor-pointer hover:scale-110 duration-300 text-green-800 " />
           </Link>
-          <MdDelete className="text-3xl cursor-pointer hover:scale-110 duration-300 text-red-600 " />
+          <MdDelete
+            onClick={(e) => deleteBlog(blog._id)}
+            className="text-3xl cursor-pointer hover:scale-110 duration-300 text-red-600 "
+          />
         </div>
         <div className="px-5 py-3 pb-5">
           <div className="text-white pb-3  flex items-center justify-between">
@@ -53,6 +61,7 @@ function Card({ blog, author }) {
           </Link>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }
