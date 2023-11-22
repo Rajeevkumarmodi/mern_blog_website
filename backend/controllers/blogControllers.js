@@ -129,6 +129,7 @@ export const deleteSingleBlog = async (req, res) => {
 export const editSingleBlog = async (req, res) => {
   const blogId = req.params.id;
   const userId = req.userId;
+
   const { title, description, category, blogImage } = req.body;
   const file = req.file ? req.file.filename : blogImage;
 
@@ -138,6 +139,8 @@ export const editSingleBlog = async (req, res) => {
       return res.status(404).json({ error: "user not found" });
     }
 
+    const singleBlog = await Blog.find({ _id: blogId });
+    console.log(singleBlog);
     const updateBlog = await Blog.updateOne(
       { _id: blogId },
       {

@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 const BLOGIMAGE_BASE_URL = "http://localhost:8080";
 function Card({ blog, author }) {
   const { title, description } = blog && blog;
-  const replaceDesc = blog && description.replace(/<[^>]+>/g, "");
+  const replaceDesc =
+    blog && description.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ");
 
   return (
     <div
@@ -23,7 +24,9 @@ function Card({ blog, author }) {
           />
         </Link>
         <div className="absolute top-4 right-3 flex flex-col gap-2">
-          <FaEdit className="text-3xl cursor-pointer hover:scale-110 duration-300 text-green-800 " />
+          <Link to={`/editblog/${blog._id}`}>
+            <FaEdit className="text-3xl cursor-pointer hover:scale-110 duration-300 text-green-800 " />
+          </Link>
           <MdDelete className="text-3xl cursor-pointer hover:scale-110 duration-300 text-red-600 " />
         </div>
         <div className="px-5 py-3 pb-5">

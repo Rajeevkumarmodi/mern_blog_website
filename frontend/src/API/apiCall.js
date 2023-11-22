@@ -99,3 +99,14 @@ export const userBlogs = async (header, body) => {
     header
   );
 };
+
+// edit single blog
+
+export const editSingleBlog = async (body, header, id) => {
+  return await apiCommanRequest(
+    "PATCH",
+    `${BLOG_BASE_URL}/editblog/${id}`,
+    body,
+    header
+  );
+};

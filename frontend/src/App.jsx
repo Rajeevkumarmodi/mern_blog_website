@@ -8,6 +8,7 @@ import CreateBlog from "./pages/createBlog/CreateBlog";
 import Profile from "./pages/profile/Profile";
 import Blog from "./pages/blog/Blog";
 import MyBlogs from "./pages/myBlogs/MyBlogs";
+import EditBlog from "./pages/editBlog/EditBlog";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/blog/:id" element={<Blog />} />
           <Route path="/myblogs" element={<MyBlogs />} />
+          <Route path="/editblog/:id" element={<EditBlog />} />
         </Routes>
       </BrowserRouter>
     </div>

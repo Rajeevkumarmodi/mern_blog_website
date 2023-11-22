@@ -6,8 +6,15 @@ import { userBlogs } from "../../API/apiCall";
 import MyBlogCard from "../../components/myBlogCard/MyBlogCard";
 import Loader from "../../components/loader/Loader";
 function UserHome() {
-  const { isBlogCreated, setIsBlogCreated, blogCategories, loader, setLoader } =
-    useContext(contex);
+  const {
+    isBlogCreated,
+    setIsBlogCreated,
+    blogCategories,
+    loader,
+    setLoader,
+    isEditBlog,
+    setIsEditBlog,
+  } = useContext(contex);
   const [allBlogs, setAllBlogs] = useState();
   if (isBlogCreated === true) {
     toast.success("Created Blog");
@@ -15,8 +22,16 @@ function UserHome() {
   }
 
   useEffect(() => {
+    showEditBlogToast();
     fetchBlogs();
   }, []);
+
+  function showEditBlogToast() {
+    if (isEditBlog) {
+      toast.success("Blog successfully updated ");
+      setIsEditBlog(false);
+    }
+  }
 
   async function fetchBlogs() {
     const header = {
