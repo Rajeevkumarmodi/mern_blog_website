@@ -6,7 +6,9 @@ import { allUsersAllBlogs } from "../../API/apiCall";
 import Card from "../../components/card/Card";
 import SearchBox from "../../components/searchBox/SearchBox";
 import Loader from "../../components/loader/Loader";
+import { useNavigate } from "react-router-dom";
 function UserHome() {
+  const navigate = useNavigate();
   const { isBlogCreated, setIsBlogCreated, blogCategories, loader, setLoader } =
     useContext(contex);
   const [allBlogs, setAllBlogs] = useState();
@@ -19,21 +21,30 @@ function UserHome() {
     fetchBlogs();
   }, []);
 
+  // const token = localStorage.getItem("auth-token");
+  // if (!token) {
+  //   navigate("/login");
+  // }
+
   async function fetchBlogs() {
     const header = {
       "Content-Type": "multipart/form-data",
       auth_token: localStorage.getItem("auth-token"),
     };
 
-    setLoader(true);
     const serverData = await allUsersAllBlogs(header);
+    setLoader(true);
     console.log(serverData);
-    if (serverData.message === "Network Error") {
+    if (serverData.status == 200) {
+      setAllBlogs(serverData.data.success);
+      setLoader(false);
+    } else if (serverData.message === "Network Error") {
       setLoader(false);
       toast.error("Internal Server Error");
     } else {
-      setAllBlogs(serverData.data.success);
+      toast.error(serverData.response.data.error);
       setLoader(false);
+      navigate("/login");
     }
   }
   return (
