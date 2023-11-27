@@ -1,9 +1,14 @@
 import React from "react";
 
-function SearchBox() {
+function SearchBox({ searchValue }) {
+  function search(e) {
+    searchValue(e);
+  }
+
   return (
     <div>
       <input
+        onChange={(e) => search(e)}
         className="border-y-2 border-l-2 border-gray-300  rounded-s-lg p-1"
         type="text"
         placeholder="search blog"

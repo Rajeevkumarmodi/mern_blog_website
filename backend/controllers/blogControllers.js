@@ -78,6 +78,14 @@ export const getUserBlogs = async (req, res) => {
 
 export const getAllBlogs = async (req, res) => {
   const userId = req.userId;
+  const searchText = req.query.search || "";
+  const categorie = req.query.categorie;
+
+  const query = {
+    title: { $regex: searchText, $options: "i" },
+  };
+
+  categorie != "All" ? (query.category = categorie) : "";
 
   try {
     const exisitingUser = await User.findOne({ _id: userId });
@@ -86,7 +94,7 @@ export const getAllBlogs = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const allBlogs = await Blog.find().populate("author");
+    const allBlogs = await Blog.find(query).populate("author");
     res.status(200).json({ success: allBlogs, totalBlogs: allBlogs.length });
   } catch (err) {
     console.log(err);

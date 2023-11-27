@@ -36,10 +36,10 @@ export const creatBlog = async (body, header) => {
 
 // all blogs api
 
-export const allUsersAllBlogs = async (header, body) => {
+export const allUsersAllBlogs = async (header, categorie, search, body) => {
   return await apiCommanRequest(
     "GET",
-    `${BLOG_BASE_URL}/allblogs`,
+    `${BLOG_BASE_URL}/allblogs/?categorie=${categorie}&search=${search}`,
     body,
     header
   );

@@ -7,27 +7,37 @@ import Card from "../../components/card/Card";
 import SearchBox from "../../components/searchBox/SearchBox";
 import Loader from "../../components/loader/Loader";
 import { useNavigate } from "react-router-dom";
+
 function UserHome() {
   const navigate = useNavigate();
   const { isBlogCreated, setIsBlogCreated, blogCategories, loader, setLoader } =
     useContext(contex);
-  const [allBlogs, setAllBlogs] = useState();
+  const [allBlogs, setAllBlogs] = useState([]);
+  const [categorie, setCategorie] = useState("All");
+  const [searchText, setSearchText] = useState("");
   if (isBlogCreated === true) {
     toast.success("Created Blog");
     setTimeout(() => setIsBlogCreated(false), 400);
   }
 
+  // header
+  const header = {
+    "Content-Type": "multipart/form-data",
+    auth_token: localStorage.getItem("auth-token"),
+  };
+
   useEffect(() => {
     fetchBlogs();
-  }, []);
+  }, [categorie, searchText]);
+
+  // search text value
+
+  function searchValue(e) {
+    setSearchText(e.target.value);
+  }
 
   async function fetchBlogs() {
-    const header = {
-      "Content-Type": "multipart/form-data",
-      auth_token: localStorage.getItem("auth-token"),
-    };
-
-    const serverData = await allUsersAllBlogs(header);
+    const serverData = await allUsersAllBlogs(header, categorie, searchText);
     setLoader(true);
     console.log(serverData);
     if (serverData.status == 200) {
@@ -43,17 +53,19 @@ function UserHome() {
     } else {
       toast.error(serverData.response.data.error);
       setLoader(false);
-      navigate("/login");
     }
   }
   return (
     <Layout>
       <div className="my-[60px] flex flex-col">
         <div className="flex flex-col items-center md:flex-row gap-5 py-5">
-          <SearchBox />
+          <SearchBox searchValue={searchValue} />
           <div>
             <p>Search by Categorie</p>
-            <select className="border-2 rounded-lg  text-center ">
+            <select
+              onChange={(e) => setCategorie(e.target.value)}
+              className="border-2 rounded-lg  text-center "
+            >
               {blogCategories &&
                 blogCategories.map((blogCate, index) => {
                   return (
@@ -68,7 +80,7 @@ function UserHome() {
 
         {loader ? (
           <Loader />
-        ) : allBlogs ? (
+        ) : allBlogs.length > 0 ? (
           <div className="flex flex-col gap-6">
             {allBlogs &&
               allBlogs.map((blog) => {
