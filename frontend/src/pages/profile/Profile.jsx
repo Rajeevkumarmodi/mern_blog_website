@@ -13,6 +13,7 @@ import { FaBlogger } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import { RxAvatar } from "react-icons/rx";
 import { BsCalendarCheck } from "react-icons/bs";
+import toast from "react-hot-toast";
 
 function Profile() {
   const { loader, setLoader } = useContext(contex);
@@ -32,6 +33,16 @@ function Profile() {
     const serverData = await singleUser(header);
     if (serverData.status === 200) {
       setUserData(serverData.data.success);
+      setLoader(false);
+    } else if (serverData.response.data.error.name === "TokenExpiredError") {
+      localStorage.removeItem("auth-token");
+      setLoader(false);
+      navigate("/login");
+    } else if (serverData.message === "Network Error") {
+      setLoader(false);
+      toast.error("Internal Server Error");
+    } else {
+      toast.error(serverData.response.data.error);
       setLoader(false);
     }
   }

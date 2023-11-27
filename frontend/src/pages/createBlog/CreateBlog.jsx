@@ -47,6 +47,10 @@ function CreateBlog() {
       } else if (serverData.message == "Network Error") {
         toast.error("Internal Server error");
         setLoader(false);
+      } else if (serverData.response.data.error.name === "TokenExpiredError") {
+        localStorage.removeItem("auth-token");
+        setLoader(false);
+        navigate("/login");
       } else if (serverData.response.status === 404) {
         setLoader(false);
         toast.error(serverData.response.data.error);

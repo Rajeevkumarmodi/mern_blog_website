@@ -21,11 +21,6 @@ function UserHome() {
     fetchBlogs();
   }, []);
 
-  // const token = localStorage.getItem("auth-token");
-  // if (!token) {
-  //   navigate("/login");
-  // }
-
   async function fetchBlogs() {
     const header = {
       "Content-Type": "multipart/form-data",
@@ -38,6 +33,10 @@ function UserHome() {
     if (serverData.status == 200) {
       setAllBlogs(serverData.data.success);
       setLoader(false);
+    } else if (serverData.response.data.error.name === "TokenExpiredError") {
+      localStorage.removeItem("auth-token");
+      setLoader(false);
+      navigate("/login");
     } else if (serverData.message === "Network Error") {
       setLoader(false);
       toast.error("Internal Server Error");

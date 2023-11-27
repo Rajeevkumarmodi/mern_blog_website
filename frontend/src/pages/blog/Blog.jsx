@@ -47,6 +47,10 @@ function Blog() {
       setLoader(false);
       setBlogData(serverData.data.success);
       setTotalComment(serverData.data.success.comments);
+    } else if (serverData.response.data.error.name === "TokenExpiredError") {
+      localStorage.removeItem("auth-token");
+      setLoader(false);
+      navigate("/login");
     } else {
       setLoader(false);
       toast.error(serverData.response.data.error);

@@ -65,6 +65,10 @@ function UserHome() {
     if (serverData.status === 200) {
       toast.success("Blog deleted ");
       fetchBlogs();
+    } else if (serverData.response.data.error.name === "TokenExpiredError") {
+      localStorage.removeItem("auth-token");
+      setLoader(false);
+      navigate("/login");
     } else {
       toast.error(serverData.response.data.error);
     }
