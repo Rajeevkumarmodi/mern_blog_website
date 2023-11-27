@@ -27,7 +27,10 @@ function UserHome() {
   };
 
   useEffect(() => {
-    fetchBlogs();
+    const setTime = setTimeout(() => {
+      fetchBlogs();
+    }, 1000);
+    return () => clearTimeout(setTime);
   }, [categorie, searchText]);
 
   // search text value
