@@ -29,6 +29,7 @@ function Blog() {
   const [blogData, setBlogData] = useState();
   const [comment, setComment] = useState();
   const [totalComment, setTotalComment] = useState([]);
+  const [likeUnlikeProcess, setLikeUnlikeProcess] = useState(false);
   const { id } = useParams();
   useEffect(() => {
     fetchSingleBlog();
@@ -60,6 +61,7 @@ function Blog() {
   // user like blog function
 
   async function userLikeBlogFun() {
+    setLikeUnlikeProcess(true);
     const serverData = await userLikeBlog(id, header);
     if (serverData.status === 200) {
       const serverData = await singleBlog(id, header);
@@ -69,11 +71,13 @@ function Blog() {
     if (serverData.message == "Network Error") {
       toast.error("Internal server error");
     }
+    setLikeUnlikeProcess(false);
   }
 
   // user unlike blog function
 
   async function userUnlikeBlogFun() {
+    setLikeUnlikeProcess(true);
     const serverData = await userUnlikeBlog(id, header);
     console.log("unlike call", serverData);
     if (serverData.status === 200) {
@@ -83,6 +87,8 @@ function Blog() {
     if (serverData.message == "Network Error") {
       toast.error("Internal server error");
     }
+
+    setLikeUnlikeProcess(false);
   }
 
   async function commentAPICallFun() {
@@ -119,15 +125,16 @@ function Blog() {
             </div>
             <div className="flex items-center gap-1">
               {blogData && blogData.likes.includes(blogData.author._id) ? (
-                <AiTwotoneHeart
+                <button
+                  disabled={likeUnlikeProcess}
                   onClick={userUnlikeBlogFun}
-                  className="text-4xl cursor-pointer hover:shadow-md shadow-gray-400 rounded-full text-red-700"
-                />
+                >
+                  <AiTwotoneHeart className="text-4xl cursor-pointer hover:shadow-md shadow-gray-400 rounded-full text-red-700" />
+                </button>
               ) : (
-                <AiFillHeart
-                  onClick={userLikeBlogFun}
-                  className="text-4xl cursor-pointer hover:shadow-md shadow-gray-400 rounded-full text-gray-500"
-                />
+                <button disabled={likeUnlikeProcess} onClick={userLikeBlogFun}>
+                  <AiFillHeart className="text-4xl cursor-pointer hover:shadow-md shadow-gray-400 rounded-full text-gray-500" />
+                </button>
               )}
 
               <p>{blogData && blogData.likes.length}</p>

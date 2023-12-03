@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import { contex } from "../../contex/ContexApi";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FcBusinessman, FcHome } from "react-icons/fc";
 import { FaBlogger, FaCircle } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
 import { MdAddCircle } from "react-icons/md";
+import "../../../src/index.css";
 
 function SideBar() {
-  const [clicked, setClicked] = useState("home");
   const { blogCategories } = useContext(contex);
   const navigate = useNavigate();
 
@@ -19,69 +19,54 @@ function SideBar() {
     <div className="mt-[52px] py-2 flex flex-col justify-center items-center gap-4  w-[300px] h-[calc(100vh-53px)] bg-[#286082]">
       <div className="flex items-center gap-3">
         <FcHome className="text-3xl shadow-md shadow-orange-500 bg-white rounded-full p-[1px]" />
-        <Link
-          onClick={() => setClicked("home")}
+        <NavLink
           to="/"
-          className={`text-white ${
-            clicked === "home" ? "bg-orange-500" : ""
-          } hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400 `}
+          className="text-white hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400 "
         >
           Home
-        </Link>
+        </NavLink>
       </div>
       <div className="flex items-center gap-3 ml-8">
         <MdAddCircle className="text-3xl shadow-md shadow-orange-500 bg-white rounded-full p-[1px]" />
-        <Link
-          onClick={() => setClicked("creat_blog")}
+        <NavLink
           to="/creatblog"
-          className={`text-white ${
-            clicked === "creat_blog" ? "bg-orange-500" : ""
-          } hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400 `}
+          className="text-white hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400 "
         >
           Creat Blog
-        </Link>
+        </NavLink>
       </div>
       <div className="flex items-center gap-3 mr-2">
         <FcBusinessman className="text-3xl shadow-md shadow-orange-500 bg-white rounded-full p-[1px]" />
-        <Link
-          onClick={() => setClicked("profile")}
+        <NavLink
           to="/profile"
-          className={`text-white ${
-            clicked === "profile" ? "bg-orange-500" : ""
-          } hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400 `}
+          className="text-white hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400 "
         >
           Profile
-        </Link>
+        </NavLink>
       </div>
       <div className="flex items-center gap-3 ml-5">
         <FcBusinessman className="text-3xl shadow-md shadow-orange-500 bg-white rounded-full p-[1px]" />
-        <Link
-          onClick={() => setClicked("my_blogs")}
+        <NavLink
           to="/myblogs"
-          className={`text-white ${
-            clicked === "my_blogs" ? "bg-orange-500" : ""
-          } hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400 `}
+          className="text-white hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400 "
         >
           My Blogs
-        </Link>
+        </NavLink>
       </div>
       <div className="flex items-center gap-3 ml-3">
         <FaBlogger className="text-3xl shadow-md shadow-orange-500 bg-white rounded-full p-[1px]" />
-        <Link
-          onClick={() => setClicked("all_blogs")}
+        <NavLink
           to="/"
-          className={`text-white ${
-            clicked === "all_blogs" ? "bg-orange-500" : ""
-          } hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400 `}
+          className="text-white hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400 "
         >
           All Blogs
-        </Link>
+        </NavLink>
       </div>
       <div onClick={logoutFun} className="flex items-center gap-3 ml-1">
         <TbLogout className="text-3xl shadow-md shadow-orange-500 bg-white rounded-full p-[1px]" />
-        <Link className="flex items-center gap-3 text-white hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400">
+        <div className="flex items-center gap-3 text-white hover:bg-orange-400 px-4 py-[2px] rounded-lg text-xl border-2 border-gray-400">
           Logout
-        </Link>
+        </div>
       </div>
     </div>
   );
