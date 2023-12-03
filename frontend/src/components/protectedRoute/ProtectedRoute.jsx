@@ -1,14 +1,19 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+
+// function ProtectedRoute({ children }) {
+//   const navigate = useNavigate();
+//   const token = localStorage.getItem("auth-token");
+
+//   if (!token) {
+//     navigate("/login");
+//   }
+//   return <div>{children}</div>;
+// }
 
 function ProtectedRoute({ children }) {
-  const navigate = useNavigate();
   const token = localStorage.getItem("auth-token");
-
-  if (!token) {
-    navigate("/login");
-  }
-  return <div>{children}</div>;
+  return token ? children : <Navigate to="/login"></Navigate>;
 }
 
 export default ProtectedRoute;
