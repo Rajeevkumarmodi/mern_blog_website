@@ -10,6 +10,7 @@ import Blog from "./pages/blog/Blog";
 import MyBlogs from "./pages/myBlogs/MyBlogs";
 import EditBlog from "./pages/editBlog/EditBlog";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
+import PageNotFoundPage from "./pages/404Page/PageNotFoundPage";
 
 function App() {
   return (
@@ -67,6 +68,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route path="/*" element={<PageNotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </div>
