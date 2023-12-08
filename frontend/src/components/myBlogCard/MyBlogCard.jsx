@@ -5,7 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
-const BLOGIMAGE_BASE_URL = "http://localhost:8080";
+const BLOGIMAGE_BASE_URL = "https://mern-blog-website-api.vercel.app";
 function Card({ blog, author, deleteFunction }) {
   const { title, description } = blog && blog;
   const replaceDesc =

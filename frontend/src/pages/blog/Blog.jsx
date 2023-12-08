@@ -11,11 +11,9 @@ import toast, { Toaster } from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
 import Layout from "../../components/layout/Layout";
 import Comment from "../../components/comment/Comment";
-import loginImg from "../../../public/login_img.png";
 import { RxAvatar } from "react-icons/rx";
 import { AiFillHeart, AiTwotoneHeart, AiOutlineSend } from "react-icons/ai";
-import ReactHtmlParser from "react-html-parser";
-const BLOGIMAGE_BASE_URL = "http://localhost:8080/blogImage";
+const BLOGIMAGE_BASE_URL = "https://mern-blog-website-api.vercel.app/blogImage";
 
 // header
 const header = {
@@ -34,9 +32,6 @@ function Blog() {
   useEffect(() => {
     fetchSingleBlog();
   }, [id]);
-
-  // blog description
-  const blogDescription = blogData && ReactHtmlParser(blogData.description);
 
   // fetchsingle blog function
 
@@ -156,7 +151,12 @@ function Blog() {
                 {blogData && blogData.title}
               </h2>
             </div>
-            <div className="text-gray-600">{blogDescription}</div>
+            <div
+              className="text-gray-600"
+              dangerouslySetInnerHTML={{
+                __html: blogData && blogData.description,
+              }}
+            ></div>
 
             {/* comment */}
 

@@ -2,7 +2,7 @@ import React from "react";
 import { RxAvatar } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
-const BLOGIMAGE_BASE_URL = "http://localhost:8080";
+const BLOGIMAGE_BASE_URL = "https://mern-blog-website-api.vercel.app";
 function Card({ blog }) {
   const { title, description } = blog && blog;
   const replaceDesc = blog && description.replace(/<[^>]+>/g, "");

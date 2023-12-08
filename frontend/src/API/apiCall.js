@@ -1,6 +1,6 @@
 import { apiCommanRequest } from "./apiCommanRequest";
-const USER_BASE_URL = "http://localhost:8080/user/api";
-const BLOG_BASE_URL = "http://localhost:8080/blog/api";
+const USER_BASE_URL = "https://mern-blog-website-api.vercel.app/user/api";
+const BLOG_BASE_URL = "https://mern-blog-website-api.vercel.app/blog/api";
 
 export const signupUser = async (body, header) => {
   return await apiCommanRequest(

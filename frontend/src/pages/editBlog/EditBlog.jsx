@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Layout from "../../components/layout/Layout";
 import JoditEditor from "jodit-react";
-import ReactHtmlParser from "react-html-parser";
 import toast, { Toaster } from "react-hot-toast";
 import { editSingleBlog, singleBlog } from "../../API/apiCall";
 import Loader from "../../components/loader/Loader";
