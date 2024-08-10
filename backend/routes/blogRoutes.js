@@ -1,5 +1,6 @@
 import express from "express";
 import jwt_authentication from "../middleware/auth.js";
+import multer from "multer";
 const router = express.Router();
 
 import {
@@ -13,13 +14,15 @@ import {
   blogUnlike,
   blogComment,
 } from "../controllers/blogControllers.js";
-import upload from "../multerConfig/multerStorage.js";
+import { storage } from "../config/cloudinary.js";
+let uploader = multer({ storage });
 
 // creat blog route
 router.post(
   "/createblog",
   jwt_authentication,
-  upload.single("blogImage"),
+  uploader.single("blogImage"),
+  // upload.single("blogImage"),
   creatBlogControllers
 );
 // user get blog
@@ -37,7 +40,7 @@ router.delete("/:id", jwt_authentication, deleteSingleBlog);
 router.patch(
   "/editblog/:id",
   jwt_authentication,
-  upload.single("blogImage"),
+  uploader.single("blogImage"),
   editSingleBlog
 );
 

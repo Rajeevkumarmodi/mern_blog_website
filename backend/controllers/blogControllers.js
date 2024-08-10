@@ -3,11 +3,12 @@ import { Blog } from "../models/Blog.models.js";
 import { User } from "../models/User.models.js";
 import Comment from "../models/Comment.models.js";
 import path from "path";
+import { uploadOnCloudinary } from "../config/cloudinary.js";
 
 // create blog controllers
 export const creatBlogControllers = async (req, res) => {
   const { title, description, category } = req.body;
-  const file = req.file.filename;
+  const file = req.file.originalname;
   const extension = path.extname(file);
   const userId = req.userId;
 
@@ -21,6 +22,14 @@ export const creatBlogControllers = async (req, res) => {
       .json({ error: "only .png , .jpeg , jpg formate allowed" });
   }
 
+  if (file > 512000) {
+    return res
+      .status(404)
+      .json(
+        new ApiResponse(404, "please provide image size less then 500kb", false)
+      );
+  }
+
   try {
     const exisitingUser = await User.findById({ _id: userId }).select(
       "-password"
@@ -28,12 +37,22 @@ export const creatBlogControllers = async (req, res) => {
     if (!exisitingUser) {
       return res.status(404).json({ error: "User not found" });
     }
-    console.log(exisitingUser);
+
+    let result = await uploadOnCloudinary(req.file.path);
+
+    console.log("result", result);
+
+    if (!result) {
+      return res
+        .status(404)
+        .json(new ApiResponse(404, "Image not uploaded", false));
+    }
+
     const newBlog = await Blog({
       title,
       description,
       category,
-      blogImage: file,
+      blogImage: result?.secure_url,
       author: userId,
       comments: [],
       likes: [],
