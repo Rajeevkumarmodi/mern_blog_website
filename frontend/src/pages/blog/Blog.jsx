@@ -114,7 +114,7 @@ function Blog() {
             <div>
               <img
                 className="w-full h-[40vh] md:h-[50vh]"
-                src={blogData && BLOGIMAGE_BASE_URL + "/" + blogData.blogImage}
+                src={blogData && blogData.blogImage}
                 alt=""
               />
             </div>
@@ -152,7 +152,7 @@ function Blog() {
               </h2>
             </div>
             <div
-              className="text-gray-600"
+              className="text-gray-600 overflow-x-hidden "
               dangerouslySetInnerHTML={{
                 __html: blogData && blogData.description,
               }}

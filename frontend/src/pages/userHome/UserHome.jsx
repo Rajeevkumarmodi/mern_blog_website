@@ -60,7 +60,7 @@ function UserHome() {
   }
   return (
     <Layout>
-      <div className="my-[60px] flex flex-col">
+      <div className="my-[60px] flex flex-col items-center">
         <div className="flex flex-col items-center md:flex-row gap-5 py-5">
           <SearchBox searchValue={searchValue} />
           <div>
@@ -84,7 +84,7 @@ function UserHome() {
         {loader ? (
           <Loader />
         ) : allBlogs.length > 0 ? (
-          <div className="flex flex-col gap-6">
+          <div className="flex justify-center space-x-4 space-y-4 flex-wrap gap-6">
             {allBlogs &&
               allBlogs.map((blog) => {
                 return <Card key={blog._id} blog={blog} />;
