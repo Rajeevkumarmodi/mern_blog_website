@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import signupImg from "../../../public/signup_img.jpg";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { signupUser } from "../../API/apiCall";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
@@ -110,7 +110,6 @@ function Signup() {
           </form>
         </div>
       </div>
-      <Toaster />
     </div>
   );
 }

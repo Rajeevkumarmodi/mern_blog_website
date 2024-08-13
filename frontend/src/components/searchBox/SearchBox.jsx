@@ -9,7 +9,7 @@ function SearchBox({ searchValue }) {
     <div>
       <input
         onChange={(e) => search(e)}
-        className="border-y-2 border-l-2 border-gray-300  rounded-s-lg p-1"
+        className="border-y-2 border-l-2 border-gray-300 outline-none  rounded-s-lg p-1"
         type="text"
         placeholder="search blog"
       />

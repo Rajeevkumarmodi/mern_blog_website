@@ -3,7 +3,7 @@ import { RxAvatar } from "react-icons/rx";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import Image_not_found from "../../assets/Image-not-found.png";
 
 const BLOGIMAGE_BASE_URL = "https://mern-blog-website-api.vercel.app";
 function Card({ blog, author, deleteFunction }) {
@@ -24,8 +24,8 @@ function Card({ blog, author, deleteFunction }) {
         <Link to={`/blog/${blog._id}`} className="text-center">
           <img
             className="rounded-t-lg h-[260px] "
-            src={`${BLOGIMAGE_BASE_URL}/blogImage/${blog.blogImage}`}
-            alt=""
+            src={blog.blogImage ? blog.blogImage : Image_not_found}
+            alt="blog image"
           />
         </Link>
         <div className="absolute top-4 right-3 flex flex-col gap-2">
@@ -61,7 +61,6 @@ function Card({ blog, author, deleteFunction }) {
           </Link>
         </div>
       </div>
-      <Toaster />
     </div>
   );
 }

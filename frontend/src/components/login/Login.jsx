@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import loginImg from "../../../public/login_img.png";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { contex } from "../../contex/ContexApi";
 import { loginUser } from "../../API/apiCall";
 import Loader from "../loader/Loader";
@@ -100,7 +100,6 @@ function Signup() {
           </form>
         </div>
       </div>
-      <Toaster />
     </div>
   );
 }

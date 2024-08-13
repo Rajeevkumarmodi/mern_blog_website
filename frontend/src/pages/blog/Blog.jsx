@@ -7,7 +7,7 @@ import {
   userComment,
 } from "../../API/apiCall";
 import { contex } from "../../contex/ContexApi";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
 import Layout from "../../components/layout/Layout";
 import Comment from "../../components/comment/Comment";
@@ -194,7 +194,6 @@ function Blog() {
           </div>
         )}
       </div>
-      <Toaster />
     </Layout>
   );
 }

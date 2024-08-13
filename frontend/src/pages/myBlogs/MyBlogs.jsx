@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/layout/Layout";
 import { contex } from "../../contex/ContexApi";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { userBlogs } from "../../API/apiCall";
 import MyBlogCard from "../../components/myBlogCard/MyBlogCard";
 import Loader from "../../components/loader/Loader";
@@ -73,6 +73,9 @@ function UserHome() {
       toast.error(serverData.response.data.error);
     }
   }
+
+  console.log(allBlogs);
+
   return (
     <Layout>
       <div className="my-[60px] flex  flex-col">
@@ -83,7 +86,9 @@ function UserHome() {
           <Loader />
         ) : allBlogs ? (
           <div className="flex flex-row flex-wrap gap-6">
-            {allBlogs &&
+            {allBlogs.blogs.length === 0 ? (
+              <div className="text-2xl font-bold">Blog not found</div>
+            ) : (
               allBlogs.blogs.map((blog) => {
                 return (
                   <MyBlogCard
@@ -93,13 +98,13 @@ function UserHome() {
                     deleteFunction={deleteFunction}
                   />
                 );
-              })}
+              })
+            )}
           </div>
         ) : (
           <h2 className="text-2xl font-bold text-center ">Blogs not found😒</h2>
         )}
       </div>
-      <Toaster />
     </Layout>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Layout from "../../components/layout/Layout";
 import JoditEditor from "jodit-react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { editSingleBlog, singleBlog } from "../../API/apiCall";
 import Loader from "../../components/loader/Loader";
 import { contex } from "../../contex/ContexApi";
@@ -146,7 +146,6 @@ function CreateBlog() {
           </div>
         </form>
       </div>
-      <Toaster />
     </Layout>
   );
 }

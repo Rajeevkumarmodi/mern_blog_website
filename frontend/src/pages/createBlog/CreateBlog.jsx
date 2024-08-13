@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import Layout from "../../components/layout/Layout";
 import JoditEditor from "jodit-react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { creatBlog } from "../../API/apiCall";
 import Loader from "../../components/loader/Loader";
 import { contex } from "../../contex/ContexApi";
@@ -108,6 +108,7 @@ function CreateBlog() {
           </div>
           <div className="py-3 text-center">
             <button
+              disabled={loader}
               onClick={(e) => submitData(e)}
               className="bg-blue-600 px-6 text-xl py-1 text-white rounded-lg hover:shadow-lg"
             >
@@ -116,7 +117,6 @@ function CreateBlog() {
           </div>
         </form>
       </div>
-      <Toaster />
     </Layout>
   );
 }

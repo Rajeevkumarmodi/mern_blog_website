@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/layout/Layout";
 import { contex } from "../../contex/ContexApi";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { allUsersAllBlogs } from "../../API/apiCall";
 import Card from "../../components/card/Card";
 import SearchBox from "../../components/searchBox/SearchBox";
@@ -40,8 +40,8 @@ function UserHome() {
   }
 
   async function fetchBlogs() {
-    const serverData = await allUsersAllBlogs(header, categorie, searchText);
     setLoader(true);
+    const serverData = await allUsersAllBlogs(header, categorie, searchText);
     console.log(serverData);
     if (serverData.status == 200) {
       setAllBlogs(serverData.data.success);
@@ -61,7 +61,7 @@ function UserHome() {
   return (
     <Layout>
       <div className="my-[60px] flex flex-col items-center">
-        <div className="flex flex-col items-center md:flex-row gap-5 py-5">
+        <div className="flex flex-col items-center md:flex-row gap-5  py-5">
           <SearchBox searchValue={searchValue} />
           <div>
             <p>Search by Categorie</p>
@@ -84,7 +84,7 @@ function UserHome() {
         {loader ? (
           <Loader />
         ) : allBlogs.length > 0 ? (
-          <div className="flex justify-center space-x-4 space-y-4 flex-wrap gap-6">
+          <div className="flex mt-3 justify-center space-x-4  flex-wrap gap-6">
             {allBlogs &&
               allBlogs.map((blog) => {
                 return <Card key={blog._id} blog={blog} />;
@@ -94,7 +94,6 @@ function UserHome() {
           <h2 className="text-2xl font-bold text-center ">Blogs not found😒</h2>
         )}
       </div>
-      <Toaster />
     </Layout>
   );
 }

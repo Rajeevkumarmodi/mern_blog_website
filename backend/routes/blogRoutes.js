@@ -1,6 +1,6 @@
 import express from "express";
 import jwt_authentication from "../middleware/auth.js";
-import multer from "multer";
+import uploader from "../middleware/multer.js";
 const router = express.Router();
 
 import {
@@ -14,15 +14,12 @@ import {
   blogUnlike,
   blogComment,
 } from "../controllers/blogControllers.js";
-import { storage } from "../config/cloudinary.js";
-let uploader = multer({ storage });
 
 // creat blog route
 router.post(
   "/createblog",
   jwt_authentication,
   uploader.single("blogImage"),
-  // upload.single("blogImage"),
   creatBlogControllers
 );
 // user get blog

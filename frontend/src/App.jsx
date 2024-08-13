@@ -11,6 +11,7 @@ import MyBlogs from "./pages/myBlogs/MyBlogs";
 import EditBlog from "./pages/editBlog/EditBlog";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import PageNotFoundPage from "./pages/404Page/PageNotFoundPage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -73,6 +74,8 @@ function App() {
           <Route path="/*" element={<PageNotFoundPage />} />
         </Routes>
       </BrowserRouter>
+
+      <Toaster />
     </div>
   );
 }
