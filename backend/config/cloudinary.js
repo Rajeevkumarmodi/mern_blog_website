@@ -8,14 +8,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// export const storage = new CloudinaryStorage({
-//   cloudinary,
-//   params: {
-//     folder: "blog_app_images",
-//     allowedFormats: ["jpeg", "png", "jpg"],
-//   },
-// });
-
 export async function uploadOnCloudinary(imgUrl) {
   if (!imgUrl) return null;
 
@@ -31,3 +23,23 @@ export async function uploadOnCloudinary(imgUrl) {
     console.error(error);
   }
 }
+
+// delete image
+
+export const deleteImageFromCloudinary = async (imageUrl) => {
+  try {
+    if (!imageUrl) return null;
+
+    // Extract the public ID from the URL
+
+    const publicId = imageUrl.split("/").pop().split(".")[0];
+    const promise = await cloudinary.uploader.destroy(
+      `blog_app_images/${publicId}`
+    );
+
+    return promise;
+  } catch (error) {
+    console.error("Error deleting image from Cloudinary:", error);
+    throw error;
+  }
+};

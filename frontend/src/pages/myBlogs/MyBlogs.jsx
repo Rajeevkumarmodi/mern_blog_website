@@ -8,32 +8,12 @@ import Loader from "../../components/loader/Loader";
 import { deleteSingleBlog } from "../../API/apiCall";
 
 function UserHome() {
-  const {
-    isBlogCreated,
-    setIsBlogCreated,
-    blogCategories,
-    loader,
-    setLoader,
-    isEditBlog,
-    setIsEditBlog,
-  } = useContext(contex);
+  const { blogCategories, loader, setLoader } = useContext(contex);
   const [allBlogs, setAllBlogs] = useState();
-  if (isBlogCreated === true) {
-    toast.success("Created Blog");
-    setTimeout(() => setIsBlogCreated(false), 400);
-  }
 
   useEffect(() => {
-    showEditBlogToast();
     fetchBlogs();
   }, []);
-
-  function showEditBlogToast() {
-    if (isEditBlog) {
-      toast.success("Blog successfully updated ");
-      setIsEditBlog(false);
-    }
-  }
 
   async function fetchBlogs() {
     const header = {
@@ -85,7 +65,7 @@ function UserHome() {
         {loader ? (
           <Loader />
         ) : allBlogs ? (
-          <div className="flex flex-row flex-wrap gap-6">
+          <div className="flex  flex-wrap  ">
             {allBlogs.blogs.length === 0 ? (
               <div className="text-2xl font-bold">Blog not found</div>
             ) : (

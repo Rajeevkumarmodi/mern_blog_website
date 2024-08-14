@@ -3,7 +3,10 @@ import { Blog } from "../models/Blog.models.js";
 import { User } from "../models/User.models.js";
 import Comment from "../models/Comment.models.js";
 import path from "path";
-import { uploadOnCloudinary } from "../config/cloudinary.js";
+import {
+  deleteImageFromCloudinary,
+  uploadOnCloudinary,
+} from "../config/cloudinary.js";
 import { timeStamp } from "console";
 
 // create blog controllers
@@ -115,6 +118,7 @@ export const getAllBlogs = async (req, res) => {
     }
 
     const allBlogs = await Blog.find(query)
+      .sort({ createdAt: -1 })
       .sort({ timestamp: 1 })
       .populate("author");
 
@@ -133,6 +137,7 @@ export const deleteSingleBlog = async (req, res) => {
 
   try {
     const exisitingUser = await User.findOne({ _id: userId });
+    const blog = await Blog.findById(blogId);
 
     if (!exisitingUser) {
       return res.status(404).json({ error: "User not found" });
@@ -144,7 +149,12 @@ export const deleteSingleBlog = async (req, res) => {
     );
 
     if (removeElm.modifiedCount === 1) {
+      const blogPrevImage = blog.blogImage;
+
       const deleteBlog = await Blog.deleteOne({ _id: blogId });
+
+      await deleteImageFromCloudinary(blogPrevImage);
+
       return res.status(200).json({ success: "blog deleted" });
     } else {
       return res.status(404).json({ error: "blog is not deleted" });
@@ -160,18 +170,72 @@ export const deleteSingleBlog = async (req, res) => {
 export const editSingleBlog = async (req, res) => {
   const blogId = req.params.id;
   const userId = req.userId;
+  const file = req?.file;
+  // console.log("file", file);
 
-  const { title, description, category, blogImage } = req.body;
-  const file = req.file ? req.file.filename : blogImage;
+  const extension = file ? path.extname(file.originalname) : "";
+
+  const { title, description, category } = req.body;
+  // const file = req.file ? req.file.filename : blogImage;
+
+  if (!title || !description || !category) {
+    return res.status(404).json({ error: "All fields are required" });
+  }
+
+  const singleBlog = await Blog.findById(blogId);
 
   try {
-    const exisitingUser = await User.findOne({ _id: userId });
-    if (!exisitingUser) {
-      return res.status(404).json({ error: "user not found" });
+    if (!singleBlog) {
+      return res.status(404).json({ sucess: false, message: "blog not found" });
     }
 
-    const singleBlog = await Blog.find({ _id: blogId });
-    console.log(singleBlog);
+    if (!file) {
+      const updateBlog = await Blog.updateOne(
+        { _id: blogId },
+        {
+          $set: {
+            title,
+            description,
+            category,
+          },
+          $currentDate: { lastUpdated: true },
+        }
+      );
+
+      return res.status(200).json({
+        success: false,
+        message: "Blog update successfully",
+        data: updateBlog,
+      });
+    }
+
+    if (extension != ".png" && extension != ".jpg" && extension != "jpeg") {
+      return res
+        .status(404)
+        .json({ error: "only .png , .jpeg , jpg formate allowed" });
+    }
+
+    if (file > 512000) {
+      return res
+        .status(404)
+        .json(
+          new ApiResponse(
+            404,
+            "please provide image size less then 500kb",
+            false
+          )
+        );
+    }
+
+    const fileUpload = await uploadOnCloudinary(file.path);
+
+    if (!fileUpload) {
+      return res
+        .status(200)
+        .json({ success: false, message: "image not uploded" });
+    }
+
+    const prevBlogImage = singleBlog.blogImage;
     const updateBlog = await Blog.updateOne(
       { _id: blogId },
       {
@@ -179,13 +243,19 @@ export const editSingleBlog = async (req, res) => {
           title,
           description,
           category,
-          blogImage: file,
+          blogImage: fileUpload.secure_url,
         },
         $currentDate: { lastUpdated: true },
       }
     );
 
-    res.status(200).json({ success: "update details successfully" });
+    const deletePrevImage = await deleteImageFromCloudinary(prevBlogImage);
+
+    console.log("file deleted", deletePrevImage);
+
+    res
+      .status(200)
+      .json({ success: true, message: "blog update successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });

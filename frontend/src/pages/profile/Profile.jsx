@@ -14,6 +14,7 @@ import { FcLike } from "react-icons/fc";
 import { RxAvatar } from "react-icons/rx";
 import { BsCalendarCheck } from "react-icons/bs";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 function Profile() {
   const { loader, setLoader } = useContext(contex);
@@ -81,12 +82,12 @@ function Profile() {
                     </span>
                     <span>ID : {userData._id}</span>
                   </p>
-                  <p className="flex items-center gap-2">
+                  <Link to="/myblogs" className="flex items-center gap-2">
                     <span>
                       <FaBlogger className="text-3xl" />
                     </span>
                     <span>Total Blogs : {userData.blogs.length}</span>
-                  </p>
+                  </Link>
                   <p className="flex items-center gap-2">
                     <span>
                       <FcLike className="text-3xl" />

@@ -25,9 +25,11 @@ function Blog() {
   const { loader, setLoader } = useContext(contex);
   const [isLiked, setIsLiked] = useState(false);
   const [blogData, setBlogData] = useState();
-  const [comment, setComment] = useState();
+  const [comment, setComment] = useState("");
   const [totalComment, setTotalComment] = useState([]);
   const [likeUnlikeProcess, setLikeUnlikeProcess] = useState(false);
+  const [commentSendLoding, setCommentSendLoding] = useState(false);
+
   const { id } = useParams();
   useEffect(() => {
     fetchSingleBlog();
@@ -82,7 +84,6 @@ function Blog() {
     if (serverData.message == "Network Error") {
       toast.error("Internal server error");
     }
-
     setLikeUnlikeProcess(false);
   }
 
@@ -90,15 +91,18 @@ function Blog() {
     if (!comment) {
       toast.error("Please fill comment");
     } else {
+      setCommentSendLoding(true);
       const serverData = await userComment(id, header, { comment: comment });
-      console.log(serverData);
+      // console.log(serverData);
       if (serverData.status === 200) {
+        setCommentSendLoding(false);
         const serverData = await singleBlog(id, header);
         setBlogData(serverData.data.success);
         setTotalComment(serverData.data.success.comments);
         setComment("");
       }
       if (serverData.message == "Network Error") {
+        setCommentSendLoding(false);
         toast.error("Internal server error");
       }
     }
@@ -111,28 +115,40 @@ function Blog() {
           <Loader />
         ) : (
           <div className=" shadow-lg shadow-gray-400 rounded-lg p-5">
-            <div>
+            <div className="h-[40vh] md:h-[50vh] overflow-hidden">
               <img
-                className="w-full h-[40vh] md:h-[50vh]"
+                className="w-full h-full object-contain"
                 src={blogData && blogData.blogImage}
                 alt=""
               />
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 mt-3">
               {blogData && blogData.likes.includes(blogData.author._id) ? (
                 <button
                   disabled={likeUnlikeProcess}
                   onClick={userUnlikeBlogFun}
                 >
-                  <AiTwotoneHeart className="text-4xl cursor-pointer hover:shadow-md shadow-gray-400 rounded-full text-red-700" />
+                  {likeUnlikeProcess ? (
+                    <div className="w-[100px] my-2">
+                      <Loader />
+                    </div>
+                  ) : (
+                    <AiTwotoneHeart className="text-4xl cursor-pointer hover:shadow-md shadow-gray-400 rounded-full text-red-700" />
+                  )}
                 </button>
               ) : (
                 <button disabled={likeUnlikeProcess} onClick={userLikeBlogFun}>
-                  <AiFillHeart className="text-4xl cursor-pointer hover:shadow-md shadow-gray-400 rounded-full text-gray-500" />
+                  {likeUnlikeProcess ? (
+                    <div className="w-[100px] my-2">
+                      <Loader />
+                    </div>
+                  ) : (
+                    <AiFillHeart className="text-4xl cursor-pointer hover:shadow-md shadow-gray-400 rounded-full text-gray-500" />
+                  )}
                 </button>
               )}
 
-              <p>{blogData && blogData.likes.length}</p>
+              {!likeUnlikeProcess && <p>{blogData && blogData.likes.length}</p>}
             </div>
             <div className="py-3 flex items-center justify-between">
               <div className="flex flex-col md:flex-row md:items-center md:gap-3">
@@ -168,10 +184,18 @@ function Blog() {
                 className="border-2 border-gray-400 rounded-lg px-2 py-1"
                 placeholder={`comment as ${blogData && blogData.author.name}`}
               />
-              <AiOutlineSend
-                onClick={() => commentAPICallFun()}
-                className="text-3xl text-green-600 cursor-pointer"
-              />
+              {commentSendLoding ? (
+                <Loader />
+              ) : (
+                <button disabled={comment.length > 0 ? false : true}>
+                  <AiOutlineSend
+                    onClick={() => commentAPICallFun()}
+                    className={`text-3xl ${
+                      comment.length > 0 ? "text-green-500" : "text-gray-500"
+                    } `}
+                  />
+                </button>
+              )}
             </div>
 
             {totalComment && totalComment.length > 0 ? (

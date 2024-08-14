@@ -7,8 +7,7 @@ import Loader from "../../components/loader/Loader";
 import { contex } from "../../contex/ContexApi";
 import { useNavigate } from "react-router-dom";
 function CreateBlog() {
-  const { loader, setLoader, blogCategories, setIsBlogCreated } =
-    useContext(contex);
+  const { loader, setLoader, blogCategories } = useContext(contex);
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [blogImage, setBlogImage] = useState("");
@@ -37,7 +36,7 @@ function CreateBlog() {
       const serverData = await creatBlog(data, header);
       console.log(serverData);
       if (serverData.status == 201) {
-        setIsBlogCreated(true);
+        toast.success("Blog created");
         setContent("");
         setBlogImage("");
         setBlogCategorie("");

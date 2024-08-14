@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import signupImg from "../../../public/signup_img.jpg";
 import toast from "react-hot-toast";
 import { signupUser } from "../../API/apiCall";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import { contex } from "../../contex/ContexApi";
 function Signup() {
@@ -68,7 +68,7 @@ function Signup() {
             <div className="flex flex-col ">
               <label htmlFor="name">Name</label>
               <input
-                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 focus:outline-none shadow-md shadow-gray-200"
+                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 py-1 focus:outline-none shadow-md shadow-gray-200"
                 type="text"
                 placeholder="enter name"
                 id="name"
@@ -80,7 +80,7 @@ function Signup() {
             <div className="flex flex-col">
               <label htmlFor="email">Email</label>
               <input
-                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 focus:outline-none shadow-md shadow-gray-200"
+                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 py-1 focus:outline-none shadow-md shadow-gray-200"
                 type="email"
                 placeholder="enter email"
                 id="email"
@@ -92,7 +92,7 @@ function Signup() {
             <div className="flex flex-col ">
               <label htmlFor="pass">Password</label>
               <input
-                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 focus:outline-none shadow-md shadow-gray-200"
+                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 py-1 focus:outline-none shadow-md shadow-gray-200"
                 type="password"
                 placeholder="enter password"
                 id="pss"
@@ -107,6 +107,15 @@ function Signup() {
             >
               {loader ? <Loader /> : "Signup"}
             </button>
+            <p>
+              I hanve an account{" "}
+              <Link
+                to="/login"
+                className="text-blue-500 font-semibold underline"
+              >
+                login?
+              </Link>
+            </p>
           </form>
         </div>
       </div>

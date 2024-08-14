@@ -10,15 +10,10 @@ import { useNavigate } from "react-router-dom";
 
 function UserHome() {
   const navigate = useNavigate();
-  const { isBlogCreated, setIsBlogCreated, blogCategories, loader, setLoader } =
-    useContext(contex);
+  const { blogCategories, loader, setLoader } = useContext(contex);
   const [allBlogs, setAllBlogs] = useState([]);
   const [categorie, setCategorie] = useState("All");
   const [searchText, setSearchText] = useState("");
-  if (isBlogCreated === true) {
-    toast.success("Created Blog");
-    setTimeout(() => setIsBlogCreated(false), 400);
-  }
 
   // header
   const header = {

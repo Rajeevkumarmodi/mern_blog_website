@@ -5,7 +5,6 @@ import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Image_not_found from "../../assets/Image-not-found.png";
 
-const BLOGIMAGE_BASE_URL = "https://mern-blog-website-api.vercel.app";
 function Card({ blog, author, deleteFunction }) {
   const { title, description } = blog && blog;
   const replaceDesc =
@@ -16,14 +15,11 @@ function Card({ blog, author, deleteFunction }) {
   }
 
   return (
-    <div
-      to={`/blog/${blog._id}`}
-      className="max-w-2xl m-auto shadow-lg shadow-gray-400"
-    >
-      <div className="bg-white border border-gray-200 rounded-lg max-w-sm relative dark:bg-gray-800 dark:border-gray-700">
+    <div className="mt-10 w-[330px] h-[400px] overflow-hidden m-auto shadow-lg rounded-md shadow-gray-400">
+      <div className="bg-gray-100  border border-gray-200  relative">
         <Link to={`/blog/${blog._id}`} className="text-center">
           <img
-            className="rounded-t-lg h-[260px] "
+            className="rounded-t-lg w-full object-cover h-[30vh] "
             src={blog.blogImage ? blog.blogImage : Image_not_found}
             alt="blog image"
           />
@@ -37,20 +33,20 @@ function Card({ blog, author, deleteFunction }) {
             className="text-3xl cursor-pointer hover:scale-110 duration-300 text-red-600 "
           />
         </div>
-        <div className="px-5 py-3 pb-5">
-          <div className="text-white pb-3  flex items-center justify-between">
+        <div className="px-5 h-[50vh] py-3 pb-5">
+          <div className="text-gray-800 pb-3  flex items-center justify-between">
             <div className="flex gap-3 items-center">
               <RxAvatar className="text-3xl" />
               <p className="font-bold">{author}</p>
             </div>
             <p>{blog && blog.createdAt.split("T")[0]}</p>
           </div>
-          <h5 className=" font-bold text-2xl tracking-tight mb-2 text-white">
-            {blog && title.length > 30 ? `${title.slice(0, 30)}...` : title}
+          <h5 className=" font-bold text-2xl tracking-tight mb-2 text-gray-800">
+            {blog && title.length > 20 ? `${title.slice(0, 20)}...` : title}
           </h5>
-          <div className="text-gray-300 pb-3 ">
-            {replaceDesc && replaceDesc.length > 100
-              ? `${replaceDesc.slice(0, 100)}...`
+          <div className="text-gray-800 pb-3 ">
+            {replaceDesc && replaceDesc.length > 80
+              ? `${replaceDesc.slice(0, 80)}...`
               : replaceDesc}
           </div>
           <Link

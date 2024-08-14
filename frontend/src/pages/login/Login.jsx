@@ -4,25 +4,16 @@ import toast from "react-hot-toast";
 import { contex } from "../../contex/ContexApi";
 import { loginUser } from "../../API/apiCall";
 import Loader from "../../components/loader/Loader";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Signup() {
   const navigate = useNavigate();
-  const { loader, setLoader, setIsSignup, isSignup, setIsLogin } =
-    useContext(contex);
+  const { loader, setLoader } = useContext(contex);
 
   const [inputVal, setInputVal] = useState({
     email: "",
     password: "",
   });
-
-  useEffect(() => {
-    if (isSignup === true) {
-      toast.success("user signup successfully👍");
-      setTimeout(() => setIsSignup(false), 600);
-    }
-  }, []);
-
   async function loginForm(e) {
     e.preventDefault();
     const { email, password } = inputVal;
@@ -40,13 +31,13 @@ function Signup() {
         setLoader(false);
       }
       if (serverData.status === 200) {
+        toast.success("user Login successfully!");
         setInputVal({
           email: "",
           password: "",
         });
         localStorage.setItem("auth-token", serverData.data.jwt_token);
         setLoader(false);
-        setIsLogin(true);
         navigate("/");
       } else {
         toast.error(serverData.response.data.error);
@@ -73,7 +64,7 @@ function Signup() {
             <div className="flex flex-col">
               <label htmlFor="email">Email</label>
               <input
-                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 focus:outline-none shadow-md shadow-gray-200"
+                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 py-1 focus:outline-none shadow-md shadow-gray-200"
                 type="email"
                 placeholder="enter email"
                 id="email"
@@ -85,7 +76,7 @@ function Signup() {
             <div className="flex flex-col ">
               <label htmlFor="pass">Password</label>
               <input
-                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 focus:outline-none shadow-md shadow-gray-200"
+                className="md:w-[35vw] w-[70vw] border-2 border-gray-300 rounded-lg px-2 py-1 focus:outline-none shadow-md shadow-gray-200"
                 type="password"
                 placeholder="enter password"
                 id="pss"
@@ -100,6 +91,15 @@ function Signup() {
             >
               {loader ? <Loader /> : "Login"}
             </button>
+            <p>
+              I dontt have an account{" "}
+              <Link
+                to="/signup"
+                className="text-blue-500 font-semibold underline"
+              >
+                signup?
+              </Link>
+            </p>
           </form>
         </div>
       </div>

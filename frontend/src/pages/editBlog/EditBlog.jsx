@@ -8,8 +8,7 @@ import { contex } from "../../contex/ContexApi";
 import { useNavigate, useParams } from "react-router-dom";
 function CreateBlog() {
   const { id } = useParams();
-  const { loader, setLoader, blogCategories, setIsEditBlog } =
-    useContext(contex);
+  const { loader, setLoader, blogCategories } = useContext(contex);
 
   // useState
 
@@ -44,7 +43,7 @@ function CreateBlog() {
       setLoader(false);
       setTitle(serverData && serverData.data.success.title);
       setContent(serverData && serverData.data.success.description);
-      setBlogImage(serverData && serverData.data.success.blogImage);
+      // setBlogImage(serverData && serverData.data.success.blogImage);
       setBlogCategorie(serverData && serverData.data.success.category);
     } else {
       setLoader(false);
@@ -56,7 +55,8 @@ function CreateBlog() {
 
   async function editBlog(e) {
     e.preventDefault();
-    if (!title || !blogImage || !content || !blogCategorie) {
+
+    if (!title || !content || !blogCategorie) {
       toast.error("All fields are required ");
     } else if (blogCategorie === "All") {
       toast.error("Please select valid categorie ");
@@ -64,15 +64,15 @@ function CreateBlog() {
       const data = new FormData();
       data.append("title", title);
       data.append("description", content);
-      data.append("blogImage", editBlogImage ? editBlogImage : blogImage);
+      data.append("blogImage", editBlogImage);
       data.append("category", blogCategorie);
 
       setLoader(true);
       const serverData = await editSingleBlog(data, header, id);
       console.log(serverData);
       if (serverData.status == 200) {
+        toast.success(serverData.data.message);
         navigate("/myblogs");
-        setIsEditBlog(true);
       } else if (serverData.response.data.error.name === "TokenExpiredError") {
         localStorage.removeItem("auth-token");
         setLoader(false);
@@ -112,7 +112,7 @@ function CreateBlog() {
           </div>
           <div className="flex flex-col md:flex-row gap-2 justify-between">
             <div className="flex flex-col gap-1">
-              <label htmlFor="image">Blog image*</label>
+              <label htmlFor="image">Blog image</label>
               <input
                 onChange={(e) => setEditBlogImage(e.target.files[0])}
                 type="file"
@@ -123,6 +123,7 @@ function CreateBlog() {
               <p>Blog Categorie*</p>
               <select
                 onChange={(e) => setBlogCategorie(e.target.value)}
+                value={blogCategorie}
                 className="text-center border-2 border-gray-400 rounded-lg py-1"
               >
                 {blogCategories &&

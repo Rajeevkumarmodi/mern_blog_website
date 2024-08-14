@@ -18,10 +18,7 @@ function ContexApi({ children }) {
     "Internet Services",
   ];
   const [loader, setLoader] = useState(false);
-  const [isSignup, setIsSignup] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
-  const [isBlogCreated, setIsBlogCreated] = useState(false);
-  const [isEditBlog, setIsEditBlog] = useState(false);
+
   const [isOpenManu, setIsOpenManu] = useState(false);
   const [isPresentToken, setIsPresentToken] = useState(false);
   return (
@@ -29,17 +26,9 @@ function ContexApi({ children }) {
       value={{
         loader,
         setLoader,
-        isSignup,
-        setIsSignup,
-        isLogin,
-        setIsLogin,
         blogCategories,
         isOpenManu,
         setIsOpenManu,
-        setIsBlogCreated,
-        isBlogCreated,
-        isEditBlog,
-        setIsEditBlog,
         isPresentToken,
         setIsPresentToken,
       }}
